@@ -10,6 +10,7 @@
 
 .application .logo {
   grid-area: logo;
+  border-bottom: 1px solid black;
 }
 
 .application .app-navigation {
@@ -19,4 +20,5 @@
 .application .app-window {
   grid-area: main;
   background: var(--background-dark);
+  border-left: 1px solid black;
 }

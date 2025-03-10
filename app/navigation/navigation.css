@@ -1,7 +1,7 @@
 nav.app-navigation {
   margin: 0;
 
-  background: var(--background-secondary);
+  background: linear-gradient(0deg, var(--dark-2), var(--dark-0));
   font-family: Roboto;
   display: flex;
   flex-direction: column;
