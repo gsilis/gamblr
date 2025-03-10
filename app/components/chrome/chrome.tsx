@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router';
-import { Navigation } from '~/navigation/navigation';
-import Balance from './balance';
-import Bet from './bet';
 import { useCallback, useState } from 'react';
+import Logo from '../logo/logo';
+import { Navigation } from '~/navigation/navigation';
+import './chrome.css';
 
 export default function Chrome() {
   const [balance, setBalance] = useState(100);
@@ -10,11 +10,11 @@ export default function Chrome() {
     console.log(`Betting ${amount}`);
   }, []);
 
-  return <>
+  return <div className="application">
+    <Logo />
     <Navigation />
-    <div>
-      <Balance balance={ balance } />
+    <div className="app-window">
+      <Outlet />
     </div>
-    <Outlet />
-  </>;
+  </div>;
 }

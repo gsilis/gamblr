@@ -1,0 +1,22 @@
+.application {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+
+  grid-template-areas: "logo main" "sidebar main";
+  grid-template-rows: 200px 1fr;
+  grid-template-columns: 300px 1fr;
+}
+
+.application .logo {
+  grid-area: logo;
+}
+
+.application .app-navigation {
+  grid-area: sidebar;
+}
+
+.application .app-window {
+  grid-area: main;
+  background: var(--background-dark);
+}
