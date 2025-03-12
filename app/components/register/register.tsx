@@ -8,7 +8,7 @@ export type RegisterProps = {
 };
 
 export default function Register({ value, size }: RegisterProps) {
-  const amounts = `${value}`.split('').map(s => parseInt(s)) as CounterDisplayType[];
+  const amounts = `${Math.abs(value)}`.split('').map(s => parseInt(s)) as CounterDisplayType[];
 
   while (amounts.length < size) {
     amounts.unshift(null);

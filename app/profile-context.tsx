@@ -26,7 +26,7 @@ const ProfileProvider = ({ children }: { children: any }) => {
   }
 
   const [city, setCity] = useState<CityKey | null>(storageContext.load(CITY, null));
-  const [balance, setBalance] = useState<number>(storageContext.load(BALANCE, 0));
+  const [balance, setBalance] = useState<number>(parseInt(storageContext.load(BALANCE, 0)));
   const debit = useCallback((value: number) => {
     setBalance((balance) => {
       const newValue = balance - value;

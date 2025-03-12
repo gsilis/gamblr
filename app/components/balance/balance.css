@@ -7,6 +7,7 @@
   --negative-gradient-2: rgb(241, 90, 36);
   --active-border-color: rgb(255, 255, 255);
   --neutral-border-color: var(--gray);
+  --negative: var(--accent-danger);
 
   --neutral-gradient: linear-gradient(0deg, var(--neutral-gradient-1), var(--neutral-gradient-2));
   --positive-gradient: linear-gradient(0deg, var(--positive-gradient-1), var(--positive-gradient-2));
@@ -26,6 +27,10 @@
   top: -20px;
   left: 40px;
   margin: 0;
+}
+
+.balance.negative .label {
+  color: var(--negative);
 }
 
 .balance .marker {
