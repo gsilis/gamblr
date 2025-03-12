@@ -2,8 +2,7 @@
   display: grid;
   grid-template-areas: 'balance' 'divider' 'main';
   grid-template-rows: 192px 1px 1fr;
-  grid-template-columns: 100vw;
-  height: 100vh;
+  grid-template-columns: 100%;
 
   --divider-color: var(--gray);
 }

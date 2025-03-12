@@ -1,7 +1,8 @@
-import type { TransactionCategoryType } from './transaction-category-type';
+import type { TransactionKey } from "~/constants/transaction"
 
 export type TransactionType = {
   amount: number,
   description: string,
-  category: TransactionCategoryType,
+  category: TransactionKey,
+  created: Date,
 }

@@ -32,9 +32,11 @@ const ProfileProvider = ({ children }: { children: any }) => {
   const credit = useCallback((value: number) => {
     setBalance(balance => balance + value);
   }, [setBalance]);
-  const [transactions, setTransactions] = useState([]);
-  const addTransaction = useCallback((transactionType: TransactionType) => {
-    console.log('Adding transaction');
+  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+  const addTransaction = useCallback((transaction: TransactionType) => {
+    setTransactions((t) => {
+      return [...t, transaction];
+    });
   }, [setTransactions]);
 
   const value: ProfileContextType = {
