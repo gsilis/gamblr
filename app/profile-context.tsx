@@ -1,5 +1,6 @@
 import { createContext, useCallback, useState } from 'react';
 import type { CityKey } from './constants/city';
+import type { TransactionType } from './types/transaction-type';
 
 export type ProfileContextType = {
   city: CityKey | null,
@@ -7,7 +8,9 @@ export type ProfileContextType = {
   balance: number,
   setBalance: (value: number) => void,
   debit: (value: number) => void,
-  credit: (value: number) => void
+  credit: (value: number) => void,
+  transactions: TransactionType[],
+  addTransaction: (transactionType: TransactionType) => void,
 };
 
 const ProfileContext = createContext<ProfileContextType>({
@@ -16,7 +19,9 @@ const ProfileContext = createContext<ProfileContextType>({
   balance: 0,
   setBalance: (v: number) => {},
   debit: (v: number) => {},
-  credit: (v: number) => {} 
+  credit: (v: number) => {},
+  transactions: [],
+  addTransaction: (transactionType: TransactionType) => {},
 });
 const ProfileProvider = ({ children }: { children: any }) => {
   const [city, setCity] = useState<CityKey | null>(null);
@@ -27,6 +32,10 @@ const ProfileProvider = ({ children }: { children: any }) => {
   const credit = useCallback((value: number) => {
     setBalance(balance => balance + value);
   }, [setBalance]);
+  const [transactions, setTransactions] = useState([]);
+  const addTransaction = useCallback((transactionType: TransactionType) => {
+    console.log('Adding transaction');
+  }, [setTransactions]);
 
   const value: ProfileContextType = {
     city,
@@ -35,6 +44,8 @@ const ProfileProvider = ({ children }: { children: any }) => {
     setBalance,
     debit,
     credit,
+    transactions,
+    addTransaction
   };
 
   return <ProfileContext value={ value }>{ children }</ProfileContext>;

@@ -1,0 +1,27 @@
+.play-layout {
+  display: grid;
+  grid-template-areas: 'balance' 'divider' 'main';
+  grid-template-rows: 192px 1px 1fr;
+  grid-template-columns: 100vw;
+  height: 100vh;
+
+  --divider-color: var(--gray);
+}
+
+.play-layout .balance {
+  grid-area: balance;
+  margin: 0 32px;
+  align-self: center;
+}
+
+.play-layout .divider {
+  grid-area: divider;
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--divider-color);
+  margin: 0 15px;
+}
+
+.play-layout .main {
+  grid-area: main;
+}

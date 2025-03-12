@@ -47,9 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <ProfileProvider>
-          {children}
-        </ProfileProvider>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -58,7 +56,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return <ProfileProvider>
+    <Outlet />
+  </ProfileProvider>;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

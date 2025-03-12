@@ -21,4 +21,6 @@
   grid-area: main;
   background: var(--background-dark);
   border-left: 1px solid black;
+  color: var(--light);
+  font-family: "Roboto";
 }

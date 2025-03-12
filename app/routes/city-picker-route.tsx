@@ -1,7 +1,7 @@
 import Picker, { type PickerOption } from '~/components/picker/picker';
 import Cities from '../constants/city';
 import type { CityKey } from '../constants/city';
-import { use, useCallback } from 'react';
+import { use, useCallback, useEffect } from 'react';
 import { ProfileContext } from '~/profile-context';
 import { useNavigate } from 'react-router';
 
@@ -21,10 +21,12 @@ export default function CityPickerRoute() {
     throw new Error('Could not load context.');
   }
 
+  const city = context.city;
+
   const onSelect = useCallback((option: PickerOption) => {
     const city = option.value as CityKey;
     context.setCity(city);
-    navigate('/');
+    navigate('/play');
   }, [context.setCity, navigate]);
 
   return <>

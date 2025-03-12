@@ -1,0 +1,75 @@
+.balance {
+  --neutral-gradient-1: rgb(26, 26, 26);
+  --neutral-gradient-2: rgb(12, 12, 12);
+  --positive-gradient-1: rgb(57, 181, 74);
+  --positive-gradient-2: rgb(0, 104, 55);
+  --negative-gradient-1: rgb(237, 28, 36);
+  --negative-gradient-2: rgb(241, 90, 36);
+  --active-border-color: rgb(255, 255, 255);
+  --neutral-border-color: var(--gray);
+
+  --neutral-gradient: linear-gradient(0deg, var(--neutral-gradient-1), var(--neutral-gradient-2));
+  --positive-gradient: linear-gradient(0deg, var(--positive-gradient-1), var(--positive-gradient-2));
+  --negative-gradient: linear-gradient(0deg, var(--negative-gradient-1), var(--negative-gradient-2));
+
+  display: grid;
+  grid-template-areas: "marker counter";
+  grid-template-rows: 64px;
+  grid-template-columns: 33px 1fr;
+  position: relative;
+}
+
+.balance .label {
+  text-transform: uppercase;
+  font-size: 10px;
+  position: absolute;
+  top: -20px;
+  left: 40px;
+  margin: 0;
+}
+
+.balance .marker {
+  grid-area: marker;
+  border-radius: 5px;
+  border: 1px solid var(--neutral-border-color);
+  display: flex;
+  flex-direction: column;
+  background: var(--neutral-gradient);
+  font-size: 32px;
+  align-items: center;
+  justify-items: center;
+  font-weight: bold;
+  line-height: 32px;
+}
+
+.balance .marker span {
+  opacity: 0.3;
+}
+
+.balance.positive .marker {
+  background: var(--positive-gradient);
+}
+
+.balance.positive .marker .positive {
+  opacity: 1;
+}
+
+.balance.positive .marker .negative {
+  opacity: 0.3;
+}
+
+.balance.negative .marker {
+  background: var(--negative-gradient);
+}
+
+.balance.negative .marker .negative {
+  opacity: 1;
+}
+
+.balance.negative .marker .positive {
+  opacity: 0.3;
+}
+
+.balance .register {
+  grid-area: counter;
+}

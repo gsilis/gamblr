@@ -1,0 +1,8 @@
+.register {
+  display: flex;
+  flex-direction: row;
+}
+
+.register > * {
+  margin: 0 2px;
+}

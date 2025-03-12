@@ -1,16 +1,16 @@
 import { use } from "react";
 import { Navigate } from "react-router";
-import Reset from "~/components/reset/reset";
+import PawnShop from "~/components/pawn-shop/pawn-shop";
 import { ProfileContext } from "~/profile-context";
 
-export default function ResetRoute() {
+export default function PawnShopRoute() {
   const profile = use(ProfileContext);
   const city = profile.city;
   const balance = profile.balance;
 
   if (city) {
-    return <Reset city={ city } balance={ balance } />
+    return <PawnShop city={ city } balance={ balance } />;
   } else {
-    return <Navigate to="/city-select" />
+    return <Navigate to="/city-picker" />;
   }
 }
