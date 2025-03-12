@@ -1,7 +1,7 @@
 import type { TransactionType } from "~/types/transaction-type";
 import { BET, WIN, BANK_ASSET, PAWN_ASSET } from "~/constants/transaction";
 
-export default class TransactionFactroy {
+export default class TransactionFactory {
   createBet(amount: number, description: string): TransactionType {
     return {
       category: BET,

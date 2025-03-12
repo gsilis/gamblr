@@ -1,6 +1,7 @@
 import { createContext, useCallback, useState } from 'react';
 import type { CityKey } from './constants/city';
 import type { TransactionType } from './types/transaction-type';
+import TransactionFactory from './factories/transaction-factory';
 
 export type ProfileContextType = {
   city: CityKey | null,
@@ -38,6 +39,7 @@ const ProfileProvider = ({ children }: { children: any }) => {
       return [...t, transaction];
     });
   }, [setTransactions]);
+  const transactionFactory = new TransactionFactory();
 
   const value: ProfileContextType = {
     city,
