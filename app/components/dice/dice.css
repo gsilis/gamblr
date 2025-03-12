@@ -1,0 +1,54 @@
+.dice {
+  --border-color: var(--light);
+  --background: var(--background-gradient);
+  --dice-background: var(--dice-dot);
+
+  display: inline-block;
+  font-size: 10px;
+  width: 20em;
+  height: 20em;
+  border-radius: 2em;
+  background: var(--background);
+  border: 0.5em solid var(--border-color);
+  margin: 0.5em;
+  position: relative;
+}
+
+.dice .dot {
+  display: none;
+  width: 3.2em;
+  height: 3.2em;
+  background: var(--dice-background);
+  box-shadow: 0 0 0.5em inset rgba(0, 0, 0, 0.2);
+  border-radius: 3.2em;
+  position: absolute;
+}
+
+.dice .dot.column-1 { left: 1.4em; }
+.dice .dot.column-2 { left: 8.4em; }
+.dice .dot.column-3 { left: 15.2em }
+.dice .dot.row-1    { top: 1.4em; }
+.dice .dot.row-2    { top: 8.4em; }
+.dice .dot.row-3    { top: 15.2em; }
+
+.dice.roll-1 .dot.row-2.column-2,
+.dice.roll-2 .dot.row-1.column-3,
+.dice.roll-2 .dot.row-3.column-1,
+.dice.roll-3 .dot.row-1.column-3,
+.dice.roll-3 .dot.row-2.column-2,
+.dice.roll-3 .dot.row-3.column-1,
+.dice.roll-4 .dot.row-1.column-1,
+.dice.roll-4 .dot.row-1.column-3,
+.dice.roll-4 .dot.row-3.column-1,
+.dice.roll-4 .dot.row-3.column-3,
+.dice.roll-5 .dot.row-1.column-1,
+.dice.roll-5 .dot.row-1.column-3,
+.dice.roll-5 .dot.row-2.column-2,
+.dice.roll-5 .dot.row-3.column-1,
+.dice.roll-5 .dot.row-3.column-3,
+.dice.roll-6 .dot.row-1.column-1,
+.dice.roll-6 .dot.row-2.column-1,
+.dice.roll-6 .dot.row-3.column-1,
+.dice.roll-6 .dot.row-1.column-3,
+.dice.roll-6 .dot.row-2.column-3,
+.dice.roll-6 .dot.row-3.column-3 { display: inline-block; }

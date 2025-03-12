@@ -29,6 +29,7 @@ body {
   --background-primary: var(--dark-0);
   --background-secondary: var(--dark-2);
   --text-color: var(--light);
+  --dice-dot: linear-gradient(45deg, rgb(242, 242, 242), rgb(179, 179, 179));
 
   margin: 0;
 }
