@@ -12,6 +12,7 @@ export function Navigation({}: NavigationMeta) {
   if (city) {
     return <nav className="app-navigation">
       <NavLink to="/play">🎲 Play</NavLink>
+      <NavLink to="/bank">Bank</NavLink>
       <NavLink to="/pawn-shop">Pawn Shop</NavLink>
       <NavLink to="/history">History</NavLink>
       <hr />
