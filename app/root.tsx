@@ -10,6 +10,8 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { ProfileProvider } from "./profile-context";
+import { StorageProvider } from "./storage-context";
+import { TransactionProvider } from "./transaction-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -56,9 +58,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <ProfileProvider>
-    <Outlet />
-  </ProfileProvider>;
+  return (
+    <StorageProvider>
+      <TransactionProvider>
+        <ProfileProvider>
+          <Outlet />
+        </ProfileProvider>
+      </TransactionProvider>
+    </StorageProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

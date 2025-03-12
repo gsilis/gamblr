@@ -14,20 +14,19 @@ const options = Cities.map(city => {
 });
 
 export default function CityPickerRoute() {
-  const context = use(ProfileContext);
+  const profileContext = use(ProfileContext);
   const navigate = useNavigate();
 
-  if (!context) {
+  if (!profileContext) {
     throw new Error('Could not load context.');
   }
 
-  const city = context.city;
-
   const onSelect = useCallback((option: PickerOption) => {
     const city = option.value as CityKey;
-    context.setCity(city);
+    profileContext.setCity(city);
+    profileContext.credit(1000);
     navigate('/play');
-  }, [context.setCity, navigate]);
+  }, [profileContext.setCity, profileContext.credit, navigate]);
 
   return <>
     <Picker
