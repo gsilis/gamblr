@@ -1,0 +1,108 @@
+.play {
+  display: flex;
+  flex-direction: column;
+
+  --control-background: var(--gray-1);
+  --control-border: var(--gray);
+  --control-color: var(--light);
+  --control-hover-background: var(--gray-2);
+  --control-hover-border: var(--gray-2);
+  --control-focus-color: var(--accent-primary);
+}
+
+.play .control-row {
+  gap: 10px;
+  margin: 15px 0;
+  flex: 0;
+  display: grid;
+}
+
+.play .control-row label { grid-area: label; }
+.play .control-row input { grid-area: input; }
+.play .control-row .spacer { grid-area: spacer; }
+
+.play .control-row label {
+  font-family: Roboto;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.play .control-row.bet {
+  grid-template-areas:  "label input button1 button3 button5 button7 button9 button11 spacer"
+                        "label input button2 button4 button6 button8 button10 button12 spacer";
+  grid-template-rows: 32px 32px;
+  grid-template-columns: 64px 300px 80px 80px 80px 80px 80px 80px 1fr;
+}
+
+.play .control-row.rolls {
+  grid-template-areas: "label input button1 readout roll spacer"
+                       "label input button2 readout roll spacer";
+  grid-template-rows: 32px 32px;
+  grid-template-columns: 64px 64px 32px 400px 300px 1fr;
+}
+
+.play .control-row.bet .all { grid-area: button1; }
+.play .control-row.bet .reset { grid-area: button2; }
+.play .control-row.bet .add-1000 { grid-area: button3; }
+.play .control-row.bet .sub-1000 { grid-area: button4; }
+.play .control-row.bet .add-100 { grid-area: button5; }
+.play .control-row.bet .sub-100 { grid-area: button6; }
+.play .control-row.bet .add-10 { grid-area: button7; }
+.play .control-row.bet .sub-10 { grid-area: button8; }
+.play .control-row.bet .add-1 { grid-area: button9; }
+.play .control-row.bet .sub-1 { grid-area: button10; }
+.play .control-row.bet .sub-half { grid-area: button11; }
+.play .control-row.bet .sub-third { grid-area: button12; }
+
+.play .dice {
+  flex: 1;
+}
+
+.play .control-row input,
+.play .control-row button {
+  background: var(--control-background);
+  border: 1px solid var(--control-border);
+  color: var(--control-color);
+  font-family: Roboto;
+  border-radius: 5px;
+}
+
+.play .control-row input {
+  font-size: 36px;
+  text-align: center;
+}
+
+.play .control-row button {
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.play .control-row button:hover {
+  border-color: var(--control-hover-border);
+  background: var(--control-hover-background);
+}
+
+.play .control-row button:focus {
+  outline: none;
+  border-color: var(--control-focus-color);
+}
+
+.play .control-row button.add-roll {
+  grid-area: button1;
+}
+
+.play .control-row button.sub-roll {
+  grid-area: button2;
+}
+
+.play .control-row button.do-roll {
+  grid-area: roll;
+  border: 5px solid white;
+  background: var(--action-gradient);
+  text-transform: uppercase;
+  font-family: Roboto;
+  font-size: 48px;
+  cursor: pointer;
+}

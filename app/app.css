@@ -5,6 +5,8 @@ body {
   --dark-2: rgb(0, 12, 20);
   --dark-3: rgb(0, 18, 24);
   --gray: rgb(51, 51, 51);
+  --gray-1: rgb(26, 26, 26);
+  --gray-2: rgb(75, 75, 75);
 
   --gray-30: rgba(51, 51, 51, 0.3);
   --gray-0: rgba(51, 51, 51, 0);
@@ -26,6 +28,7 @@ body {
   --selected-gradient: linear-gradient(45deg, var(--accent-primary-0) 30%, var(--accent-primary-30));
   --selected-danger-gradient: linear-gradient(45deg, var(--accent-danger-0) 30%, var(--accent-danger-30));
   --action-gradient: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+  --reverse-action-gradient: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
   --background-primary: var(--dark-0);
   --background-secondary: var(--dark-2);
   --text-color: var(--light);
