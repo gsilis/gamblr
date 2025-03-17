@@ -14,6 +14,11 @@
   position: relative;
 }
 
+.dice.winner {
+  --background: var(--win-gradient);
+  --dice-background: rgb(66, 55, 7);
+}
+
 .dice .dot {
   display: none;
   width: 3.2em;

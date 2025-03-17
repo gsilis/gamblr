@@ -1,0 +1,17 @@
+.roll {
+  display: flex;
+  flex-direction: row;
+  width: 230px;
+  height: 200px;
+  align-items: center;
+  padding: 15px;
+}
+
+.roll .progress {
+  flex: 15px 0;
+  align-self: stretch;
+}
+
+.roll .dice {
+  flex: 200px 0;
+}

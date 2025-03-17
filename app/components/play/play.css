@@ -106,3 +106,10 @@
   font-size: 48px;
   cursor: pointer;
 }
+
+.play .games {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: scroll;
+}

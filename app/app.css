@@ -1,5 +1,8 @@
 html,
 body {
+  --win-1: rgb(255, 174, 0);
+  --win-2: rgb(255, 217, 135);
+
   --dark-0: rgb(0, 7, 20);
   --dark-1: rgb(0, 7, 24);
   --dark-2: rgb(0, 12, 20);
@@ -33,6 +36,16 @@ body {
   --background-secondary: var(--dark-2);
   --text-color: var(--light);
   --dice-dot: linear-gradient(45deg, rgb(242, 242, 242), rgb(179, 179, 179));
+
+  --win-gradient: conic-gradient(
+    var(--win-2) 0deg,
+    var(--win-1) 30deg,
+    var(--win-2) 120deg,
+    var(--win-1) 180deg,
+    var(--win-2) 240deg,
+    var(--win-1) 330deg,
+    var(--win-2) 360deg
+  );
 
   margin: 0;
 }
