@@ -12,6 +12,7 @@ import "./app.css";
 import { ProfileProvider } from "./profile-context";
 import { StorageProvider } from "./storage-context";
 import { TransactionProvider } from "./transaction-context";
+import { GameProvider } from "./game-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -62,7 +63,9 @@ export default function App() {
     <StorageProvider>
       <TransactionProvider>
         <ProfileProvider>
-          <Outlet />
+          <GameProvider>
+            <Outlet />
+          </GameProvider>
         </ProfileProvider>
       </TransactionProvider>
     </StorageProvider>
