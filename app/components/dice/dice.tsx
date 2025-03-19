@@ -1,7 +1,7 @@
 import './dice.css';
 
 export type DiceProps = {
-  display: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9,
+  display: 1 | 2 | 3 | 4 | 5 | 6,
   win: boolean,
 };
 

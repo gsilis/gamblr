@@ -76,7 +76,8 @@ export default function Play({
     return hasNumbers && underbet && hasBet;
   }, [balance, rolls, bet]);
   const doRoll = useCallback(() => {
-    gameContext.play(rolls);
+    gameContext.clear();
+    setTimeout(() => gameContext.play(rolls));
   }, [gameContext.play, rolls]);
   const doError = useCallback(() => {
     console.error('Could not roll');
@@ -106,7 +107,7 @@ export default function Play({
       <input type="text" value={ isNaN(rolls) ? '' : rolls } onChange={ updateRolls } />
       <button className="add-roll" onClick={ increaseRolls }>+</button>
       <button className="sub-roll" onClick={ decreaseRolls }>-</button>
-      <button className="do-roll" onClick={ isValid ? doRoll : doError }>Roll</button>
+      <button className="do-roll" disabled={ gameContext.isRolling } onClick={ isValid ? doRoll : doError }>{ gameContext.isRolling ? 'Rolling...' : 'Roll!' }</button>
       <div className="spacer"></div>
     </div>
     <hr className="divider" />
@@ -114,7 +115,6 @@ export default function Play({
       { mappableRolls.map((roll) => (
         <RollProvider
           lockInValue={ (value) => gameContext.setValue(roll, value) }
-          cycles={ 10 }
           key={ roll }>
           <GameRoll />
         </RollProvider>

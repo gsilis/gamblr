@@ -1,7 +1,7 @@
 import { between } from "./number";
 
 export function random(arr: any[], exclude?: any) {
-  const max = arr.length;
+  const max = arr.length - 1;
   const hasExclude = exclude !== void 0 && arr.includes(exclude);
   let value = arr[between(0, max)];
 

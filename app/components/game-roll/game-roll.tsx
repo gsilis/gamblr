@@ -8,7 +8,7 @@ export function GameRoll() {
     cycle,
     value,
   } = use(RollContext);
-  const progress = Math.floor(cycle / cycles) * 100;
+  const progress = Math.floor((cycle / cycles) * 100);
 
   return <Roll progress={ progress } value={ value as (1 | 2 | 3 | 4 | 5 | 6) } win={ false } />;
 }

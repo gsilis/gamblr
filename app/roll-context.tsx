@@ -1,10 +1,11 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { random } from './utilities/array';
+import DiceRoll, { EVENT_COMPLETE, EVENT_PROGRESS, EVENT_VALUE } from './dice-roll';
 
 export type RollContextType = {
   cycles: number,
   cycle: number,
-  value: number,
+  value: number | null,
 };
 
 const RollContext = createContext<RollContextType>({
@@ -15,30 +16,49 @@ const RollContext = createContext<RollContextType>({
 
 const RollProvider = ({
   children,
-  cycles = 0,
   lockInValue,
 }: {
   children: any,
-  cycles: number,
   lockInValue: (value: number) => void,
 }) => {
-  const [value, setValue] = useState(1);
   const [cycle, setCycle] = useState(0);
+  const [value, setValue] = useState<null | number>(null);
+
+  const cycles = useMemo(() => {
+    return random([10, 15, 20, 25, 30]);
+  }, []);
+  const roll = useMemo(() => {
+    return new DiceRoll(cycles);
+  }, [cycles]);
+
+  const onProgress = useCallback((event: Event) => {
+    const customEvent = event as CustomEvent;
+    const detail = customEvent.detail as { cycle: number };
+
+    setCycle(detail.cycle);
+  }, [setCycle]);
+  const onValue = useCallback((event: Event) => {
+    const customEvent = event as CustomEvent;
+    const detail = customEvent.detail as { value: 1 | 2 | 3 | 4 | 5 | 6 };
+
+    setValue(detail.value);
+  }, [setValue]);
+  const onComplete = useCallback((_: Event) => {
+    setValue((value) => {
+      if (value !== null) {
+        lockInValue(value);
+      }
+
+      return value;
+    });
+  }, [lockInValue, setValue]);
 
   useEffect(() => {
-    // This should only be called when there is a change to the
-    // cycles or value setter.
-    if (cycle >= cycles) {
-      // We're done with the run
-      lockInValue(value);
-      return;
-    }
-
-    setTimeout(() => {
-      setCycle(c => c + 1);
-      setValue(v => random([1, 2, 3, 4, 5, 6], v));
-    }, 1000);
-  }, [cycles, cycle, setCycle, value, setValue, lockInValue]);
+    roll.addEventListener(EVENT_PROGRESS, onProgress);
+    roll.addEventListener(EVENT_VALUE, onValue);
+    roll.addEventListener(EVENT_COMPLETE, onComplete);
+    roll.start();
+  }, []);
 
   const context = {
     cycles: cycles,
