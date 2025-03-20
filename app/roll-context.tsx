@@ -25,7 +25,7 @@ const RollProvider = ({
   const [value, setValue] = useState<null | number>(null);
 
   const cycles = useMemo(() => {
-    return random([10, 15, 20, 25, 30]);
+    return random([10, 20, 30, 40]);
   }, []);
   const roll = useMemo(() => {
     return new DiceRoll(cycles);

@@ -12,7 +12,7 @@ import "./app.css";
 import { ProfileProvider } from "./profile-context";
 import { StorageProvider } from "./storage-context";
 import { TransactionProvider } from "./transaction-context";
-import { GameProvider } from "./game-context";
+import { GameProvider } from "./contexts/game-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

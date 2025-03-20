@@ -1,6 +1,5 @@
 import { use, useCallback, useMemo, useState } from "react";
-import { GameContext } from "~/game-context";
-import { range } from "~/utilities/array";
+import { GameContext } from "~/contexts/game-context";
 
 const MIN_ROLLS = 2;
 const MAX_ROLLS = 10;
@@ -61,9 +60,8 @@ export default function PlayControls({
     return hasNumbers && underbet && hasBet;
   }, [balance, rolls, bet]);
   const doRoll = useCallback(() => {
-    gameContext.clear();
-    setTimeout(() => gameContext.play(rolls));
-  }, [gameContext.play, rolls]);
+    gameContext.roll(rolls);
+  }, [gameContext.roll, rolls]);
   const doError = useCallback(() => {
     console.error('Could not roll');
   }, []);

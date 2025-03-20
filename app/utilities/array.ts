@@ -21,3 +21,13 @@ export function range(size: number): number[] {
 
   return arr;
 }
+
+export function blank<T>(size: number, filler: any = void 0): T[] {
+  let arr: T[] = [];
+
+  while (arr.length < size) {
+    arr.push(filler);
+  }
+
+  return arr;
+}
