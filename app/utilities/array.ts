@@ -1,6 +1,6 @@
 import { between } from "./number";
 
-export function random(arr: any[], exclude?: any) {
+export function random<T = any>(arr: T[], exclude?: T): T {
   const max = arr.length - 1;
   const hasExclude = exclude !== void 0 && arr.includes(exclude);
   let value = arr[between(0, max)];

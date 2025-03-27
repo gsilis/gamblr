@@ -38,7 +38,7 @@ const GameProvider = ({
       return;
     }
 
-    setGames(blank(count).map(game => {
+    const a = setGames(blank(count).map(game => {
       return {
         value: null,
         max: random([10, 20, 30, 40]),
@@ -49,14 +49,13 @@ const GameProvider = ({
     setCount(count);
     setComplete(false);
     setRolling(true);
-    tick();
   }, [setCount, isRolling, setRolling, setComplete]);
 
-  const tick = useCallback(() => {
+  const tick = useCallback((games: Game[]) => {
     let remaining = false;
 
     setGames(games => {
-      console.log('setGames - ', games);
+      console.log('Within setGames', games);
       games.forEach(game => {
         if (game.cycle < game.max) {
           remaining = true;
@@ -65,20 +64,20 @@ const GameProvider = ({
         }
       });
 
-      console.log('setGames', remaining);
-
       return games;
     });
 
     if (remaining) {
-      console.log('GAME CONTEXT - setTimeout');
       setTimeout(tick, 50);
     } else {
-      console.log('GAME CONTEXT - DONE');
       setRolling(false);
       setComplete(true);
     }
   }, [setGames, setRolling, setComplete]);
+
+  useEffect(() => {
+    tick(games);
+  }, [games]);
 
   const value = {
     rollCount: count,
