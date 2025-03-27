@@ -20,17 +20,17 @@ export class Game {
     return this.cycle < this.cycles;
   }
 
-  get finalValue(): number | null {
+  get finalValue(): RollNumber | null {
     return this.running ? null : this.value;
   }
 
   tick() {
-    if (this.cycle < this.cycles) {
+    if (this.cycle >= this.cycles) {
       return;
     }
 
     this.value = random<RollNumber>([1, 2, 3, 4, 5, 6]);
-    this.cycle++;
+    this.cycle += 1;
   }
 
   toJSON(): GameData {
