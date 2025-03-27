@@ -39,4 +39,20 @@ describe('Game', () => {
     game.tick();
     expect(game.toJSON()).toEqual({ cycle: 2, cycles: 2, value: expect.toBeOneOf(rollNumbers) });
   });
+
+  test('.interimValue', () => {
+    const game = new Game(2);
+    const values = [1, 2, 3, 4, 5, 6];
+
+    expect(game.finalValue).toBe(null);
+    expect(game.interimValue).toBe(null);
+
+    game.tick();
+    expect(game.finalValue).toBe(null);
+    expect(game.interimValue).toBeOneOf(values);
+
+    game.tick();
+    expect(game.finalValue).toBeOneOf(values);
+    expect(game.finalValue).toEqual(game.interimValue);
+  });
 });

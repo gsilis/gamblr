@@ -24,6 +24,10 @@ export class Game {
     return this.running ? null : this.value;
   }
 
+  get interimValue(): RollNumber | null {
+    return this.value;
+  }
+
   tick() {
     if (this.cycle >= this.cycles) {
       return;
