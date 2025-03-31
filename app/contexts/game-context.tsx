@@ -1,26 +1,23 @@
-import { createContext, useCallback, useEffect, useState } from "react";
-import { blank, random } from "~/utilities/array";
-
-export type GameContextType = {
-  rollCount: number,
-  isRolling: boolean,
-  isComplete: boolean,
-  games: Game[],
-  roll: (count: number) => void,
-};
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { type GameData, type RollNumber } from "~/objects/game";
+import { Roll, ROLL_COMPLETE, ROLL_START, ROLL_TICK } from "~/objects/roll";
 
 type Game = {
-  value: number | null,
-  max: number,
-  cycle: number,
+  complete: boolean,
+  displayValues: (RollNumber | null)[],
+  finalValues: (RollNumber | null)[],
+  maxCycles: number[],
+  cycles: number[],
+  roll: typeof Roll.prototype.roll,
 };
 
-const GameContext = createContext<GameContextType>({
-  rollCount: 0,
-  isRolling: false,
-  isComplete: false,
-  games: [],
-  roll: (_: number) => {},
+const GameContext = createContext<Game>({
+  complete: false,
+  displayValues: [],
+  finalValues: [],
+  maxCycles: [],
+  cycles: [],
+  roll: (_count: number) => {}
 });
 
 const GameProvider = ({
@@ -28,66 +25,64 @@ const GameProvider = ({
 }: {
   children: any
 }) => {
-  const [count, setCount] = useState(0);
-  const [isRolling, setRolling] = useState(false);
-  const [isComplete, setComplete] = useState(false);
-  const [games, setGames] = useState<Game[]>([]);
+  const [complete, setComplete] = useState(false);
+  const [displayValues, setDisplayValues] = useState<(RollNumber | null)[]>([]);
+  const [finalValues, setFinalValues] = useState<(RollNumber | null)[]>([]);
+  const [maxCycles, setMaxCycles] = useState<number[]>([]);
+  const [cycles, setCycles] = useState<number[]>([]);
 
-  const roll = useCallback((count: number) => {
-    if (isRolling) {
-      return;
-    }
+  const rollData = useMemo(() => {
+    const roll = new Roll();
 
-    const a = setGames(blank(count).map(game => {
-      return {
-        value: null,
-        max: random([10, 20, 30, 40]),
-        cycle: 0,
-      };
-    }));
+    return roll;
+  }, []);
+  const onComplete = useCallback((event: CustomEvent) => {
+    const gameData = event.detail.games as GameData[];
+    const games = gameData.map(g => g.value);
 
-    setCount(count);
+    setComplete(true);
+    setFinalValues(games);
+  }, [setComplete, setFinalValues]);
+  const onStart = useCallback((event: CustomEvent) => {
+    const gameData = event.detail.games as GameData[];
+
     setComplete(false);
-    setRolling(true);
-  }, [setCount, isRolling, setRolling, setComplete]);
+    setFinalValues([]);
+    setMaxCycles(gameData.map(g => g.cycles));
+  }, [setComplete, setFinalValues, setMaxCycles]);
+  const onTick = useCallback((event: CustomEvent) => {
+    const gameData = event.detail.games as GameData[];
 
-  const tick = useCallback((games: Game[]) => {
-    let remaining = false;
-
-    setGames(games => {
-      console.log('Within setGames', games);
-      games.forEach(game => {
-        if (game.cycle < game.max) {
-          remaining = true;
-          game.cycle += 1;
-          game.value = random([1, 2, 3, 4, 5, 6], game.value);
-        }
-      });
-
-      return games;
-    });
-
-    if (remaining) {
-      setTimeout(tick, 50);
-    } else {
-      setRolling(false);
-      setComplete(true);
-    }
-  }, [setGames, setRolling, setComplete]);
+    setDisplayValues(gameData.map(g => g.value));
+    setCycles(gameData.map(g => g.cycle));
+  }, [setDisplayValues, setCycles]);
+  const doRoll = useCallback((count: number) => {
+    rollData.reset();
+    rollData.roll(count);
+  }, [rollData]);
 
   useEffect(() => {
-    tick(games);
-  }, [games]);
+    rollData.addEventListener(ROLL_COMPLETE, onComplete as EventListenerOrEventListenerObject);
+    rollData.addEventListener(ROLL_START, onStart as EventListenerOrEventListenerObject);
+    rollData.addEventListener(ROLL_TICK, onTick as EventListenerOrEventListenerObject);
+
+    return () => {
+      rollData.removeEventListener(ROLL_COMPLETE, onComplete as EventListenerOrEventListenerObject);
+      rollData.removeEventListener(ROLL_START, onStart as EventListenerOrEventListenerObject);
+      rollData.removeEventListener(ROLL_TICK, onTick as EventListenerOrEventListenerObject);
+    };
+  }, [rollData, onComplete, onStart, onTick]);
 
   const value = {
-    rollCount: count,
-    isRolling,
-    isComplete,
-    games,
-    roll
+    complete,
+    displayValues,
+    finalValues,
+    maxCycles,
+    cycles,
+    roll: doRoll,
   };
 
-  return <GameContext value={ value }>{ children }</GameContext>
+  return <GameContext value={ value }>{ children }</GameContext>;
 };
 
 export { GameContext, GameProvider };

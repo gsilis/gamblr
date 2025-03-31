@@ -4,7 +4,7 @@ import { Game, type RollNumber } from "./game";
 export const ROLL_COMPLETE = 'roll_complete';
 export const ROLL_START = 'roll_start';
 export const ROLL_TICK = 'roll_tick';
-export const CYCLES = [10, 20, 30, 40];
+export const CYCLES = [10, 15, 20, 25, 30, 35, 40, 45, 50];
 
 export class Roll {
   private timeout: ReturnType<typeof setTimeout> | null = null;
@@ -17,14 +17,14 @@ export class Roll {
 
   addEventListener(
     eventName: string,
-    fn: () => void
+    fn: EventListenerOrEventListenerObject
   ): ReturnType<typeof EventTarget.prototype.addEventListener> {
     return this.dispatcher.addEventListener(eventName, fn);
   }
 
   removeEventListener(
     eventName: string,
-    fn: () => void
+    fn: EventListenerOrEventListenerObject
   ): ReturnType<typeof EventTarget.prototype.removeEventListener> {
     return this.dispatcher.removeEventListener(eventName, fn);
   }
@@ -51,7 +51,7 @@ export class Roll {
     }, true);
   }
 
-  roll(count: number) {
+  roll = (count: number) => {
     if (this.hasGames && !this.complete) {
       return;
     }
@@ -60,20 +60,39 @@ export class Roll {
       this.games.push(new Game(random(CYCLES)));
     }
 
-    this.dispatcher.dispatchEvent(new CustomEvent(ROLL_START));
+    this.dispatcher.dispatchEvent(new CustomEvent(ROLL_START, {
+      detail: {
+        games: this.games.map((game: Game) => {
+          game.tick()
+          return game.toJSON();
+        }),
+        roll: this,
+      },
+    }));
     this.tick();
   }
 
   tick = () => {
     this.dispatcher.dispatchEvent(new CustomEvent(ROLL_TICK, {
-      detail: this.games.map((game: Game) => {
-        game.tick()
-        return game.toJSON();
-      })
+      detail: { 
+        games: this.games.map((game: Game) => {
+          game.tick()
+          return game.toJSON();
+        }),
+        roll: this,
+      }
     }));
 
     if (this.complete) {
-      this.dispatcher.dispatchEvent(new CustomEvent(ROLL_COMPLETE));
+      this.dispatcher.dispatchEvent(new CustomEvent(ROLL_COMPLETE, {
+        detail: {
+          games: this.games.map((game: Game) => {
+            game.tick()
+            return game.toJSON();
+          }),
+          roll: this,
+        }
+      }));
     } else {
       this.timeout = setTimeout(this.tick, 50);
     }

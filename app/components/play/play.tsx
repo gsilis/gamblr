@@ -28,13 +28,24 @@ export default function Play({
   debit,
 }: PlayProps) {
   const gameContext = use(GameContext);
-  const games = gameContext.games;
+  const games = gameContext.displayValues;
+  const maxCycles = gameContext.maxCycles;
+  const cycles = gameContext.cycles;
+  const values = gameContext.displayValues;
 
   return <div className="play">
     <PlayControls balance={ balance } credit={ credit } debit={ debit } />
     <hr className="divider" />
     <div className="games">
-      { games.map((game, index) => <GameRoll key={ index } cycle={ game.cycle } cycles={ game.max } value={ game.value !== null ? game.value : 1 } />) }
+      {
+        games.map((game, index) => (
+          <GameRoll
+            key={ index }
+            cycle={ cycles[index] }
+            cycles={ maxCycles[index] }
+            value={ values[index] !== null ? values[index] : 1 }
+          />
+        )) }
     </div>
   </div>;
 }
