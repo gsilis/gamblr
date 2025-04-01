@@ -8,7 +8,7 @@ type Score = {
   wins: Win[],
 };
 
-class Scorer {
+export class Scorer {
   matchers: Matcher[] = [];
 
   addMatcher = (matcher: Matcher) => {
@@ -20,12 +20,12 @@ class Scorer {
     const betPerDie = bet / values.length;
 
     this.matchers.forEach((matcher) => {
-      wins.push(...matcher.match(betPerDie, values));
+      wins.push(...matcher.match(values));
     });
 
     const payout = wins.reduce((multiplier, win) => {
       return multiplier + win.multiplier;
-    }, 1);
+    }, 0);
 
     return {
       bet,
@@ -34,5 +34,3 @@ class Scorer {
     };
   }
 }
-
-export default Scorer;
