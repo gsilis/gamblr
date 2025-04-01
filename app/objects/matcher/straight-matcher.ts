@@ -24,13 +24,13 @@ export class StraightMatcher implements Matcher {
      * Then you can loop through the arrays shifting indices
      * off of them to accumulate straights.
      */
-    const source = values.reduce((sources: RollNumber[][], value) => {
-      sources[value - 1].push(value);
+    const source = values.reduce((sources: number[][], value, index) => {
+      sources[value - 1].push(index);
 
       return sources;
     }, [[], [], [], [], [], []]);
 
-    let running;
+    let running = true;
     while (running) {
       let encountered = false;
       const sequence: (string | number)[] = [];
@@ -59,7 +59,7 @@ export class StraightMatcher implements Matcher {
         wins.push({
           type: STRAIGHT,
           dice: positions,
-          multiplier: 0.4 * positions.length,
+          multiplier: 0.5 * positions.length,
         });
       });
 

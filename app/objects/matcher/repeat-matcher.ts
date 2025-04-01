@@ -29,14 +29,14 @@ export class RepeatMatcher implements Matcher {
     }, []);
 
     // What proportion is the count of all the dice?
-    const involved = values.length / matches.length;
+    const involved = matches.length / values.length;
 
     // Only 2 of a kind count as a match
     if (matches.length > 1) {
       wins.push({
         type: this.type,
         dice: matches,
-        multiplier: (matches.length * 0.3) * involved
+        multiplier: parseFloat(((matches.length * 0.1) + involved).toPrecision(3))
       });
     }
 
