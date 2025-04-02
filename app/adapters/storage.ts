@@ -5,7 +5,7 @@ export default class Storage {
     try {
       const stringified = JSON.stringify(data);
 
-      globalThis.localStorage.setItem(key, stringified);
+      window.localStorage.setItem(key, stringified);
     } catch (error) {}
   }
 
@@ -13,7 +13,7 @@ export default class Storage {
     let value;
 
     try {
-      value = globalThis.localStorage.getItem(key);
+      value = window.localStorage.getItem(key);
 
       if (value !== null) {
         value = JSON.parse(value);
