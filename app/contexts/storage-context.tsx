@@ -1,5 +1,5 @@
 import { createContext, useCallback, useMemo } from "react";
-import Storage from "./adapters/storage";
+import Storage from "../adapters/storage";
 
 export type StorageContextType = {
   save: (key: string, value: any) => void,

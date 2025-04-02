@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router';
 import './navigation.css';
 import { use } from 'react';
-import { ProfileContext } from '~/profile-context';
+import { ProfileContext } from '~/contexts/profile-context';
 
 type NavigationMeta = {};
 

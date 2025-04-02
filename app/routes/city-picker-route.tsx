@@ -1,8 +1,8 @@
 import Picker, { type PickerOption } from '~/components/picker/picker';
-import Cities from '../constants/city';
-import type { CityKey } from '../constants/city';
+import Cities from '~/constants/city';
+import type { CityKey } from '~/constants/city';
 import { use, useCallback, useEffect } from 'react';
-import { ProfileContext } from '~/profile-context';
+import { ProfileContext } from '~/contexts/profile-context';
 import { useNavigate } from 'react-router';
 
 const options = Cities.map(city => {

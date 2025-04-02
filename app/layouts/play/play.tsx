@@ -1,7 +1,7 @@
 import { use } from "react";
 import { Outlet } from "react-router";
 import Balance from "~/components/balance/balance";
-import { ProfileContext } from "~/profile-context";
+import { ProfileContext } from "~/contexts/profile-context";
 import './play.css';
 
 export default function Play() {

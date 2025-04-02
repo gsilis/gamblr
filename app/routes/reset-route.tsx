@@ -1,7 +1,7 @@
 import { use } from "react";
 import { Navigate } from "react-router";
 import Reset from "~/components/reset/reset";
-import { ProfileContext } from "~/profile-context";
+import { ProfileContext } from "~/contexts/profile-context";
 
 export default function ResetRoute() {
   const profile = use(ProfileContext);

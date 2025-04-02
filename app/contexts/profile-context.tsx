@@ -1,7 +1,7 @@
 import { createContext, use, useCallback, useState } from 'react';
-import type { CityKey } from './constants/city';
-import { StorageContext } from './storage-context';
-import { CITY, BALANCE, TRANSACTIONS } from './constants/storage';
+import type { CityKey } from '~/constants/city';
+import { StorageContext } from '~/contexts/storage-context';
+import { CITY, BALANCE } from '~/constants/storage';
 
 export type ProfileContextType = {
   city: CityKey | null,
@@ -28,16 +28,16 @@ const ProfileProvider = ({ children }: { children: any }) => {
   const [city, setCity] = useState<CityKey | null>(storageContext.load(CITY, null));
   const [balance, setBalance] = useState<number>(parseInt(storageContext.load(BALANCE, 0)));
   const debit = useCallback((value: number) => {
-    setBalance((balance) => {
-      const newValue = balance - value;
+    setBalance((b) => {
+      const newValue = b - value;
       storageContext.save(BALANCE, newValue);
       return newValue;
     }
   );
   }, [setBalance, storageContext]);
   const credit = useCallback((value: number) => {
-    setBalance((balance) => {
-      const newValue = balance + value;
+    setBalance((b) => {
+      const newValue = b + value;
       storageContext.save(BALANCE, newValue);
       return newValue;
     }

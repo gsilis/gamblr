@@ -4,7 +4,7 @@ import City from './city';
 import './logo.css';
 import Phrases from './phrases';
 import { use } from 'react';
-import { ProfileContext } from '~/profile-context';
+import { ProfileContext } from '~/contexts/profile-context';
 
 type LogoPropTypes = {
   city: CityKey | null,

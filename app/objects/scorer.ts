@@ -1,8 +1,8 @@
-import { type RollNumber } from "./game";
-import { type Matcher } from "./matcher";
-import { type Win } from "./win";
+import { type RollNumber } from "~/objects/roll-number";
+import { type Matcher } from "~/objects/matcher";
+import { type Win } from "~/objects/win";
 
-type Score = {
+export type Score = {
   bet: number,
   payout: number,
   wins: Win[],
@@ -12,7 +12,11 @@ export class Scorer {
   matchers: Matcher[] = [];
 
   addMatcher = (matcher: Matcher) => {
-    this.matchers.push(matcher);
+    this.matchers.indexOf(matcher) == -1 && this.matchers.push(matcher);
+  }
+
+  removeMatcher = (matcher: Matcher) => {
+    this.matchers = this.matchers.filter(m => m !== matcher);
   }
 
   calculate = (bet: number, values: RollNumber[]): Score => {

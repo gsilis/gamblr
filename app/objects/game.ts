@@ -1,6 +1,5 @@
 import { random } from "~/utilities/array";
-
-export type RollNumber = 1 | 2 | 3 | 4 | 5 | 6;
+import { type RollNumber } from "./roll-number";
 
 export type GameData = {
   cycles: number,

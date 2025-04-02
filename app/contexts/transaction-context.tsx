@@ -1,7 +1,9 @@
-import { createContext, useCallback, useState } from "react";
-import type { TransactionType } from "./types/transaction-type";
-import { NULL_CATEGORY } from "./constants/transaction";
-import TransactionFactory from "./factories/transaction-factory";
+import { createContext, use, useCallback, useMemo, useState } from "react";
+import { type TransactionType } from "~/types/transaction-type";
+import { NULL_CATEGORY } from "~/constants/transaction";
+import TransactionFactory from "~/factories/transaction-factory";
+import { StorageContext } from "./storage-context";
+import { TRANSACTIONS } from "~/constants/storage";
 
 export type TransactionContextType = {
   transactions: TransactionType[],
@@ -12,7 +14,12 @@ export type TransactionContextType = {
   createBet: (amount: number, description: string) => TransactionType,
 };
 
-const blankTransaction: TransactionType = { amount: 0, description: '', category: NULL_CATEGORY, created: new Date() };
+const blankTransaction: TransactionType = {
+  amount: 0,
+  description: '',
+  category: NULL_CATEGORY,
+  created: new Date(),
+};
 
 const TransactionContext = createContext<TransactionContextType>({
   transactions: [],
@@ -24,13 +31,21 @@ const TransactionContext = createContext<TransactionContextType>({
 });
 
 const TransactionProvider = ({ children }: { children: any }) => {
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+  const storageContext = use(StorageContext);
+  const existingTransactions = useMemo(() => {
+    return storageContext.load(TRANSACTIONS, []);
+  }, []);
+
+  const [transactions, setTransactions] = useState<TransactionType[]>(existingTransactions);
   const factory = new TransactionFactory();
   const addTransaction = useCallback((transaction: TransactionType) => {
     setTransactions((t) => {
-      return [...t, transaction];
+      const combined = [...t, transaction];
+
+      storageContext.save(TRANSACTIONS, combined);
+      return combined;
     });
-  }, [setTransactions]);
+  }, [setTransactions, storageContext]);
   const api = {
     transactions,
     addTransaction,

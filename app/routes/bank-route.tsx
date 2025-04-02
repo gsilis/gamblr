@@ -1,7 +1,7 @@
 import Bank from "~/components/bank/bank";
 import { use } from "react";
 import { Navigate } from "react-router";
-import { ProfileContext } from "~/profile-context";
+import { ProfileContext } from "~/contexts/profile-context";
 
 export default function BankRoute() {
   const profile = use(ProfileContext);

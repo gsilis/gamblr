@@ -1,6 +1,6 @@
 import { use, useEffect, useTransition } from "react";
 import { useNavigate } from "react-router";
-import { ProfileContext } from "~/profile-context";
+import { ProfileContext } from "~/contexts/profile-context";
 
 export default function RedirectUser() {
   const profile = use(ProfileContext);

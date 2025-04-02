@@ -1,5 +1,4 @@
-import Counter from "../counter/counter";
-import type { CounterDisplayType } from "../counter/counter";
+import Counter, { type CounterDisplayType } from "~/components/counter/counter";
 import './register.css';
 
 export type RegisterProps = {

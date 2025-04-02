@@ -1,5 +1,6 @@
 import { random } from "~/utilities/array";
-import { Game, type RollNumber } from "./game";
+import { Game } from "./game";
+import { type RollNumber } from "~/objects/roll-number";
 
 export const ROLL_COMPLETE = 'roll_complete';
 export const ROLL_START = 'roll_start';

@@ -9,10 +9,11 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { ProfileProvider } from "./profile-context";
-import { StorageProvider } from "./storage-context";
-import { TransactionProvider } from "./transaction-context";
+import { ProfileProvider } from "~/contexts/profile-context";
+import { StorageProvider } from "~/contexts/storage-context";
+import { TransactionProvider } from "~/contexts/transaction-context";
 import { GameProvider } from "./contexts/game-context";
+import { ScoreProvider } from "./contexts/score-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -63,9 +64,11 @@ export default function App() {
     <StorageProvider>
       <TransactionProvider>
         <ProfileProvider>
-          <GameProvider>
-            <Outlet />
-          </GameProvider>
+          <ScoreProvider>
+            <GameProvider>
+              <Outlet />
+            </GameProvider>
+          </ScoreProvider>
         </ProfileProvider>
       </TransactionProvider>
     </StorageProvider>

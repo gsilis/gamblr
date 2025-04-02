@@ -1,5 +1,4 @@
-import { use, useCallback, useMemo, useState } from "react";
-import { GameContext } from "~/contexts/game-context";
+import { useCallback, useMemo, useState } from "react";
 
 const MIN_ROLLS = 2;
 const MAX_ROLLS = 10;
@@ -7,15 +6,18 @@ const MAX_ROLLS = 10;
 type PlayControlsProps = {
   balance: number,
   credit: (a: number, d: string) => void,
-  debit: (a: number, d: string) => void
+  debit: (a: number, d: string) => void,
+  doRoll: (rolls: number) => void,
+  isRolling: boolean,
 };
 
 export default function PlayControls({
   balance,
   credit,
   debit,
+  doRoll,
+  isRolling
 }: PlayControlsProps) {
-  const gameContext = use(GameContext);
   const [bet, setBet] = useState(0);
   const [rolls, setRolls] = useState(MIN_ROLLS);
   const addMoney = useCallback(() => {
@@ -59,9 +61,9 @@ export default function PlayControls({
     
     return hasNumbers && underbet && hasBet;
   }, [balance, rolls, bet]);
-  const doRoll = useCallback(() => {
-    gameContext.roll(rolls);
-  }, [gameContext.roll, rolls]);
+  const roll = useCallback(() => {
+    doRoll(rolls);
+  }, [doRoll, rolls]);
   const doError = useCallback(() => {
     console.error('Could not roll');
   }, []);
@@ -89,7 +91,7 @@ export default function PlayControls({
       <input type="text" value={ isNaN(rolls) ? '' : rolls } onChange={ updateRolls } />
       <button className="add-roll" onClick={ increaseRolls }>+</button>
       <button className="sub-roll" onClick={ decreaseRolls }>-</button>
-      <button className="do-roll" disabled={ gameContext.isRolling } onClick={ isValid ? doRoll : doError }>{ gameContext.isRolling ? 'Rolling...' : 'Roll!' }</button>
+      <button className="do-roll" disabled={ isRolling } onClick={ isValid ? roll : doError }>{ isRolling ? 'Rolling...' : 'Roll!' }</button>
       <div className="spacer"></div>
     </div>
   </>;

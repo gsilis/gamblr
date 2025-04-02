@@ -1,4 +1,4 @@
-import { useCallback, useState, type MouseEventHandler } from "react";
+import { useCallback, useState } from "react";
 import './picker.css';
 
 export type PickerOption = {

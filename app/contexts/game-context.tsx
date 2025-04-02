@@ -1,6 +1,11 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
-import { type GameData, type RollNumber } from "~/objects/game";
+import { createContext, use, useCallback, useEffect, useMemo, useState } from "react";
+import { type GameData } from "~/objects/game";
+import { type RollNumber } from "~/objects/roll-number";
 import { Roll, ROLL_COMPLETE, ROLL_START, ROLL_TICK } from "~/objects/roll";
+import { ScoreContext } from "./score-context";
+import { ProfileContext } from "./profile-context";
+import { TransactionContext } from "./transaction-context";
+import { type Score } from "~/objects/scorer";
 
 type Game = {
   complete: boolean,
@@ -8,7 +13,8 @@ type Game = {
   finalValues: (RollNumber | null)[],
   maxCycles: number[],
   cycles: number[],
-  roll: typeof Roll.prototype.roll,
+  roll: (count: number, bet: number) => void,
+  isRolling: boolean,
 };
 
 const GameContext = createContext<Game>({
@@ -17,7 +23,8 @@ const GameContext = createContext<Game>({
   finalValues: [],
   maxCycles: [],
   cycles: [],
-  roll: (_count: number) => {}
+  roll: (_count: number, _bet: number) => {},
+  isRolling: false,
 });
 
 const GameProvider = ({
@@ -25,31 +32,30 @@ const GameProvider = ({
 }: {
   children: any
 }) => {
+  const [isRolling, setIsRolling] = useState(false);
   const [complete, setComplete] = useState(false);
   const [displayValues, setDisplayValues] = useState<(RollNumber | null)[]>([]);
   const [finalValues, setFinalValues] = useState<(RollNumber | null)[]>([]);
   const [maxCycles, setMaxCycles] = useState<number[]>([]);
   const [cycles, setCycles] = useState<number[]>([]);
 
-  const rollData = useMemo(() => {
-    const roll = new Roll();
-
-    return roll;
-  }, []);
+  const rollData = useMemo(() => new Roll(), []);
   const onComplete = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
     const games = gameData.map(g => g.value);
 
+    setIsRolling(false);
     setComplete(true);
     setFinalValues(games);
-  }, [setComplete, setFinalValues]);
+  }, [setComplete, setFinalValues, setIsRolling]);
   const onStart = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
 
     setComplete(false);
+    setIsRolling(true);
     setFinalValues([]);
     setMaxCycles(gameData.map(g => g.cycles));
-  }, [setComplete, setFinalValues, setMaxCycles]);
+  }, [setComplete, setFinalValues, setMaxCycles, setIsRolling]);
   const onTick = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
 
@@ -79,6 +85,7 @@ const GameProvider = ({
     finalValues,
     maxCycles,
     cycles,
+    isRolling,
     roll: doRoll,
   };
 

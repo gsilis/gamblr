@@ -1,7 +1,7 @@
 import { use } from "react";
 import { Navigate } from "react-router";
 import PawnShop from "~/components/pawn-shop/pawn-shop";
-import { ProfileContext } from "~/profile-context";
+import { ProfileContext } from "~/contexts/profile-context";
 
 export default function PawnShopRoute() {
   const profile = use(ProfileContext);

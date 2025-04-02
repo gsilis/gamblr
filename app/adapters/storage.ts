@@ -3,7 +3,9 @@ export default class Storage {
 
   save(key: string, data: any) {
     try {
-      globalThis.localStorage.setItem(key, data);
+      const stringified = JSON.stringify(data);
+
+      globalThis.localStorage.setItem(key, stringified);
     } catch (error) {}
   }
 
@@ -12,10 +14,12 @@ export default class Storage {
 
     try {
       value = globalThis.localStorage.getItem(key);
-    } catch (error) {
-      value = fallback;
-    }
 
-    return value === void 0 ? fallback : value;
+      if (value !== null) {
+        value = JSON.parse(value);
+      }
+    } catch (error) {}
+
+    return value === void 0 || value === null ? fallback : value;
   }
 }

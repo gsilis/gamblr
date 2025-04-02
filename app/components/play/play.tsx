@@ -2,9 +2,9 @@ import React, { use } from "react";
 import type { CityKey } from "~/constants/city";
 import type { TransactionType } from "~/types/transaction-type";
 import './play.css';
-import { GameRoll } from "../game-roll/game-roll";
+import { GameRoll } from "~/components/game-roll/game-roll";
 import { GameContext } from "~/contexts/game-context";
-import PlayControls from "../play-controls/play-controls";
+import PlayControls from "~/components/play-controls/play-controls";
 
 const MIN_ROLLS = 2;
 const MAX_ROLLS = 10;
@@ -34,7 +34,7 @@ export default function Play({
   const values = gameContext.displayValues;
 
   return <div className="play">
-    <PlayControls balance={ balance } credit={ credit } debit={ debit } />
+    <PlayControls balance={ balance } credit={ credit } debit={ debit } isRolling={ gameContext.isRolling } doRoll={ gameContext.roll } />
     <hr className="divider" />
     <div className="games">
       {

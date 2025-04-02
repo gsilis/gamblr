@@ -1,8 +1,8 @@
 import Play from '../components/play/play';
 import { use } from "react";
-import { ProfileContext } from "~/profile-context";
+import { ProfileContext } from "~/contexts/profile-context";
 import { Navigate } from "react-router";
-import { TransactionContext } from '~/transaction-context';
+import { TransactionContext } from '~/contexts/transaction-context';
 
 export default function PlayRoute() {
   const profile = use(ProfileContext);

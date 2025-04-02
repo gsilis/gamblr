@@ -1,4 +1,4 @@
-import Register from "../register/register";
+import Register from "~/components/register/register";
 import './balance.css';
 
 export type BalanceProps = {
