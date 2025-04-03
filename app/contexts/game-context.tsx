@@ -38,16 +38,13 @@ const GameProvider = ({
   const [finalValues, setFinalValues] = useState<(RollNumber | null)[]>([]);
   const [maxCycles, setMaxCycles] = useState<number[]>([]);
   const [cycles, setCycles] = useState<number[]>([]);
-
   const rollData = useMemo(() => new Roll(), []);
-  const onComplete = useCallback((event: CustomEvent) => {
-    const gameData = event.detail.games as GameData[];
-    const games = gameData.map(g => g.value);
 
-    setIsRolling(false);
-    setComplete(true);
-    setFinalValues(games);
-  }, [setComplete, setFinalValues, setIsRolling]);
+  const doRoll = useCallback((count: number) => {
+    rollData.reset();
+    rollData.roll(count);
+  }, [rollData]);
+
   const onStart = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
 
@@ -56,16 +53,22 @@ const GameProvider = ({
     setFinalValues([]);
     setMaxCycles(gameData.map(g => g.cycles));
   }, [setComplete, setFinalValues, setMaxCycles, setIsRolling]);
+
   const onTick = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
 
     setDisplayValues(gameData.map(g => g.value));
     setCycles(gameData.map(g => g.cycle));
   }, [setDisplayValues, setCycles]);
-  const doRoll = useCallback((count: number) => {
-    rollData.reset();
-    rollData.roll(count);
-  }, [rollData]);
+
+  const onComplete = useCallback((event: CustomEvent) => {
+    const gameData = event.detail.games as GameData[];
+    const games = gameData.map(g => g.value);
+
+    setIsRolling(false);
+    setComplete(true);
+    setFinalValues(games);
+  }, [setComplete, setFinalValues, setIsRolling]);
 
   useEffect(() => {
     rollData.addEventListener(ROLL_COMPLETE, onComplete as EventListenerOrEventListenerObject);
