@@ -37,7 +37,9 @@ const TransactionProvider = ({ children }: { children: any }) => {
   }, []);
 
   const [transactions, setTransactions] = useState<TransactionType[]>(existingTransactions);
-  const factory = new TransactionFactory();
+  const factory = useMemo(() => {
+    return new TransactionFactory();
+  }, []);
   const addTransaction = useCallback((transaction: TransactionType) => {
     setTransactions((t) => {
       const combined = [...t, transaction];
