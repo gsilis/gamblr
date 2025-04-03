@@ -17,8 +17,8 @@ export default function Balance({ balance }: BalanceProps) {
   return <div className={ classNames.join(' ') }>
     <p className="label">Balance</p>
     <div className="marker">
-      <span className="positive">+</span>
-      <span className="negative">-</span>
+      { balance > 0 && <span className="positive" title="positive funds">+</span> }
+      { balance < 0 && <span className="negative" title="negative funds">-</span> }
     </div>
     <Register value={ balance } size={ 15 } />
   </div>;

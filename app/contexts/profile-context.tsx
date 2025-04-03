@@ -20,13 +20,15 @@ const ProfileContext = createContext<ProfileContextType>({
 });
 const ProfileProvider = ({ children }: { children: any }) => {
   const storageContext = use(StorageContext);
+  const savedCity = storageContext.load(CITY, null);
+  const savedBalance = storageContext.load(BALANCE, 0);
 
   if (!storageContext) {
     throw new Error('Needs to be wrapped with a storage context');
   }
 
-  const [city, setCity] = useState<CityKey | null>(storageContext.load(CITY, null));
-  const [balance, setBalance] = useState<number>(parseInt(storageContext.load(BALANCE, 0)));
+  const [city, setCity] = useState<CityKey | null>(savedCity);
+  const [balance, setBalance] = useState<number>(parseInt(savedBalance));
   const debit = useCallback((value: number) => {
     setBalance((b) => {
       const newValue = b - value;
