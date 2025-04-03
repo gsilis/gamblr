@@ -5,6 +5,7 @@ import './play.css';
 import { GameRoll } from "~/components/game-roll/game-roll";
 import { GameContext } from "~/contexts/game-context";
 import PlayControls from "~/components/play-controls/play-controls";
+import { PlayContext } from "~/contexts/play-context";
 
 const MIN_ROLLS = 2;
 const MAX_ROLLS = 10;
@@ -27,14 +28,16 @@ export default function Play({
   credit,
   debit,
 }: PlayProps) {
+  const playContext = use(PlayContext);
   const gameContext = use(GameContext);
   const games = gameContext.displayValues;
   const maxCycles = gameContext.maxCycles;
   const cycles = gameContext.cycles;
   const values = gameContext.displayValues;
+  const roll = playContext.play;
 
   return <div className="play">
-    <PlayControls balance={ balance } credit={ credit } debit={ debit } isRolling={ gameContext.isRolling } doRoll={ gameContext.roll } />
+    <PlayControls balance={ balance } credit={ credit } debit={ debit } isRolling={ gameContext.isRolling } play={ roll } />
     <hr className="divider" />
     <div className="games">
       {

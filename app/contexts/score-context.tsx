@@ -17,6 +17,7 @@ import { StraightMatcher } from "~/objects/matcher/straight-matcher";
 import { MATCHERS } from "~/constants/storage";
 import type { Matcher } from "~/objects/matcher";
 import { type Score as ScoreShape } from "~/objects/scorer";
+import type { Win } from "~/objects/win";
 
 const matcherMap: Record<MatcherType, Matcher> = {
   [REPEAT_ONE]: new RepeatMatcher(1),
@@ -61,12 +62,28 @@ const ScoreProvider = ({
     return scorer;
   }, []);
   const scoreRoll = useCallback((bet: number, values: RollNumber[]) => {
-    return {
+    const score: {
+      bet: number,
+      payout: number,
+      wins: Win[],
+    } = {
       bet,
       payout: 0,
       wins: [],
     };
-  }, [scorer]);
+
+    matchers.map(mt => matcherMap[mt]).forEach((matcher) => {
+      score.wins.push(...matcher.match(values));
+    });
+
+    if (score.wins.length > 0) {
+      score.payout = Math.round(bet * score.wins.reduce((multi, win) => {
+        return multi + win.multiplier;
+      }, 1));
+    }
+
+    return score;
+  }, [scorer, matchers]);
   const addMatcher = useCallback((name: MatcherType) => {
     setMatchers(ms => {
       if (ms.indexOf(name) > -1) {

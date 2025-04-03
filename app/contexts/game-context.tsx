@@ -13,7 +13,7 @@ type Game = {
   finalValues: (RollNumber | null)[],
   maxCycles: number[],
   cycles: number[],
-  roll: (count: number, bet: number) => void,
+  roll: (count: number) => void,
   isRolling: boolean,
 };
 
@@ -23,7 +23,7 @@ const GameContext = createContext<Game>({
   finalValues: [],
   maxCycles: [],
   cycles: [],
-  roll: (_count: number, _bet: number) => {},
+  roll: (_count: number) => {},
   isRolling: false,
 });
 

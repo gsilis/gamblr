@@ -7,7 +7,7 @@ type PlayControlsProps = {
   balance: number,
   credit: (a: number, d: string) => void,
   debit: (a: number, d: string) => void,
-  doRoll: (rolls: number) => void,
+  play: (bet: number, dice: number) => void,
   isRolling: boolean,
 };
 
@@ -15,7 +15,7 @@ export default function PlayControls({
   balance,
   credit,
   debit,
-  doRoll,
+  play,
   isRolling
 }: PlayControlsProps) {
   const [bet, setBet] = useState(0);
@@ -62,8 +62,8 @@ export default function PlayControls({
     return hasNumbers && underbet && hasBet;
   }, [balance, rolls, bet]);
   const roll = useCallback(() => {
-    doRoll(rolls);
-  }, [doRoll, rolls]);
+    play(bet, rolls);
+  }, [play, rolls, bet]);
   const doError = useCallback(() => {
     console.error('Could not roll');
   }, []);
