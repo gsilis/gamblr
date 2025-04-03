@@ -1,6 +1,7 @@
-import { use } from "react";
+import { use, useMemo } from "react";
 import type { CityKey } from "~/constants/city";
 import { TransactionContext } from "~/contexts/transaction-context";
+import Transaction from "../transaction/transaction";
 
 type HistoryProps = {
   city: CityKey,
@@ -9,9 +10,16 @@ type HistoryProps = {
 
 export default function History({ city, balance }: HistoryProps) {
   const transactionContext = use(TransactionContext);
+  const sortedTransactions = useMemo(() => {
+    return transactionContext.transactions.sort((a, b) => {
+      return a.created.valueOf() - b.created.valueOf();
+    });
+  }, [transactionContext.transactions]);
 
   return <>
-    History { city as string } - { balance }
-    { transactionContext.transactions.join(', ') }
+    { sortedTransactions.map(
+      (transaction, index) => (
+        <Transaction transaction={ transaction } key={ index } />
+      )) }
   </>;
 }
