@@ -36,7 +36,7 @@ export default function PlayControls({
   }, [setRolls]);
   const decreaseRolls = useCallback(() => {
     setRolls(r => {
-      return r - 1 > MIN_ROLLS ? r - 1 : r;
+      return r - 1 >= MIN_ROLLS ? r - 1 : r;
     });
   }, [setRolls]);
   const updateBet = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
