@@ -1,13 +1,20 @@
 .list-heading {
   display: flex;
   flex-direction: row;
+  border: 1px solid var(--border-color);
+  background: var(--background);
 }
 
 .list-heading > span {
   flex: var(--size) 0;
+  padding: var(--table-padding);
 }
+
+.list-heading > span:first-child { border-top-left-radius: 1em; }
+.list-heading > span:last-child { border-top-right-radius: 1em; }
 
 .list-heading > span[data-space="1"] { --size: 1; }
 .list-heading > span[data-space="2"] { --size: 2; }
 .list-heading > span[data-space="3"] { --size: 3; }
 .list-heading > span[data-space="4"] { --size: 4; }
+.list-heading > span:last-child { text-align: right; }

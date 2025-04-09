@@ -3,6 +3,7 @@ import type { CityKey } from "~/constants/city";
 import { TransactionContext } from "~/contexts/transaction-context";
 import Transaction from "../transaction/transaction";
 import ListHeading from "../list-heading/list-heading";
+import "./history.css";
 
 type HistoryProps = {
   city: CityKey,
@@ -20,7 +21,7 @@ export default function History({ city, balance }: HistoryProps) {
     });
   }, [transactionContext.transactions]);
 
-  return <>
+  return <section className="history">
     <ListHeading>
       <span data-space="3">Description</span>
       <span data-space="1">Category</span>
@@ -31,5 +32,5 @@ export default function History({ city, balance }: HistoryProps) {
       (transaction, index) => (
         <Transaction transaction={ transaction } key={ index } />
       )) }
-  </>;
+  </section>;
 }

@@ -4,7 +4,7 @@ import "./transaction.css";
 import Currency from "../currency/currency";
 
 const Transaction = ({ transaction }: { transaction: TransactionType }) => {
-  return <div className="transaction">
+  return <div className="transaction" data-type={ transaction.category }>
     <span className="description">{ transaction.description }</span>
     <span className="category">{ transaction.category }</span>
     <span className="created">
