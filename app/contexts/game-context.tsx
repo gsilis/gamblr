@@ -1,7 +1,12 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, use, useCallback, useEffect, useMemo, useState } from "react";
 import { type GameData } from "~/objects/game";
 import { type RollNumber } from "~/objects/roll-number";
 import { Roll, ROLL_COMPLETE, ROLL_START, ROLL_TICK } from "~/objects/roll";
+import { PlayContext } from "./play-context";
+import { ScoreContext } from "./score-context";
+import type { Score } from "~/objects/scorer";
+import { ProfileContext } from "./profile-context";
+import { TransactionContext } from "./transaction-context";
 
 type Game = {
   complete: boolean,
@@ -9,8 +14,9 @@ type Game = {
   finalValues: (RollNumber | null)[],
   maxCycles: number[],
   cycles: number[],
-  roll: (count: number) => void,
+  roll: (count: number, bet: number) => void,
   isRolling: boolean,
+  score: Score | null,
 };
 
 const GameContext = createContext<Game>({
@@ -19,8 +25,9 @@ const GameContext = createContext<Game>({
   finalValues: [],
   maxCycles: [],
   cycles: [],
-  roll: (_count: number) => {},
+  roll: (_count: number, _bet: number) => {},
   isRolling: false,
+  score: null,
 });
 
 const GameProvider = ({
@@ -28,6 +35,11 @@ const GameProvider = ({
 }: {
   children: any
 }) => {
+  const scoreContext = use(ScoreContext);
+  const profileContext = use(ProfileContext);
+  const transactionContext = use(TransactionContext);
+  const [bet, setBet] = useState(0);
+  const [score, setScore] = useState<Score | null>(null);
   const [isRolling, setIsRolling] = useState(false);
   const [complete, setComplete] = useState(false);
   const [displayValues, setDisplayValues] = useState<(RollNumber | null)[]>([]);
@@ -36,10 +48,11 @@ const GameProvider = ({
   const [cycles, setCycles] = useState<number[]>([]);
   const rollData = useMemo(() => new Roll(), []);
 
-  const doRoll = useCallback((count: number) => {
+  const doRoll = useCallback((count: number, bet: number) => {
     rollData.reset();
+    setBet(bet);
     rollData.roll(count);
-  }, [rollData]);
+  }, [rollData, setBet]);
 
   const onStart = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
@@ -59,12 +72,30 @@ const GameProvider = ({
 
   const onComplete = useCallback((event: CustomEvent) => {
     const gameData = event.detail.games as GameData[];
-    const games = gameData.map(g => g.value);
+    const games = gameData.map(g => g.value) as RollNumber[];
 
     setIsRolling(false);
     setComplete(true);
     setFinalValues(games);
-  }, [setComplete, setFinalValues, setIsRolling]);
+
+    const score = scoreContext.scoreRoll(games, bet);
+    setScore(score);
+
+    if (score.payout > 0) {
+      profileContext.credit(score.payout);
+      transactionContext.addTransaction(transactionContext.createWin(score.payout));
+    }
+  }, [
+    setComplete,
+    setFinalValues,
+    setIsRolling,
+    scoreContext.scoreRoll,
+    bet,
+    setScore,
+    profileContext.credit,
+    transactionContext.addTransaction,
+    transactionContext.createWin
+  ]);
 
   useEffect(() => {
     rollData.addEventListener(ROLL_COMPLETE, onComplete as EventListenerOrEventListenerObject);
@@ -86,6 +117,7 @@ const GameProvider = ({
     cycles,
     isRolling,
     roll: doRoll,
+    score,
   };
 
   return <GameContext value={ value }>{ children }</GameContext>;

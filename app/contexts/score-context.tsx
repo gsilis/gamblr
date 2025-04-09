@@ -30,13 +30,13 @@ const matcherMap: Record<MatcherType, Matcher> = {
 };
 
 type Score = {
-  scoreRoll: (bet: number, roll: RollNumber[]) => ScoreShape,
+  scoreRoll: (roll: RollNumber[], bet: number) => ScoreShape,
   addMatcher: (name: MatcherType) => void,
   removeMatcher: (name: MatcherType) => void,
 };
 
 const ScoreContext = createContext<Score>({
-  scoreRoll: (bet: number, roll: RollNumber[]) => ({ wins: [], bet: 0, payout: 0 }),
+  scoreRoll: (roll: RollNumber[], bet: number) => ({ wins: [], bet: 0, payout: 0 }),
   addMatcher: (name: MatcherType) => {},
   removeMatcher: (name: MatcherType) => {}
 });
@@ -61,7 +61,7 @@ const ScoreProvider = ({
 
     return scorer;
   }, []);
-  const scoreRoll = useCallback((bet: number, values: RollNumber[]) => {
+  const scoreRoll = useCallback((values: RollNumber[], bet: number, ) => {
     const score: {
       bet: number,
       payout: number,
@@ -101,7 +101,7 @@ const ScoreProvider = ({
     matchers && matchers.forEach(m => scorer.addMatcher(matcherMap[m]));
   }, [matchers, scorer]);
 
-  const value = { scoreRoll, addMatcher, removeMatcher };
+  const value = { scoreRoll, addMatcher, removeMatcher, scoreRoll };
 
   return <ScoreContext value={ value }>{ children }</ScoreContext>;
 };

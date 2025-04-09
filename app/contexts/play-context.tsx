@@ -1,4 +1,4 @@
-import { createContext, use, useCallback, useEffect, useState } from "react";
+import { createContext, use, useCallback, useEffect, useRef, useState } from "react";
 import { GameContext } from "./game-context";
 import { ProfileContext } from "./profile-context";
 import { TransactionContext } from "./transaction-context";
@@ -11,12 +11,10 @@ import type { Score } from "~/objects/scorer";
  */
 type Play = {
   play: (bet: number, dice: number) => void,
-  score: Score | null,
 };
 
 const PlayContext = createContext<Play>({
   play: (_bet: number, _dice: number) => {},
-  score: null,
 });
 
 const PlayProvider = ({
@@ -24,8 +22,6 @@ const PlayProvider = ({
 }: {
   children: any
 }) => {
-  const [bet, setBet] = useState(0);
-  const [score, setScore] = useState<Score | null>(null);
   const gameContext = use(GameContext);
   const profileContext = use(ProfileContext);
   const transactionContext = use(TransactionContext);
@@ -37,41 +33,15 @@ const PlayProvider = ({
       transactionContext.createBet(bet, `Roll ${dice} for $${bet}.`)
     );
 
-    setBet(bet);
-    gameContext.roll(dice);
+    gameContext.roll(dice, bet);
   }, [
     gameContext.roll,
     profileContext.debit,
     transactionContext.addTransaction,
     transactionContext.createBet,
-    setBet,
   ]);
 
-  useEffect(() => {
-    if (gameContext.complete && gameContext.finalValues?.length > 0 && bet) {
-      // Cast as RollNumber[] since the check for .length should mean it cannot be null
-      const score = scoreContext.scoreRoll(bet, gameContext.finalValues as RollNumber[]);
-
-      setScore(score);
-      console.log(`Scored with payout $${score.payout}`, score);
-      if (score.payout > 0) {
-        profileContext.credit(score.payout);
-        transactionContext.addTransaction(
-          transactionContext.createWin(score.payout)
-        );
-      }
-    }
-  }, [
-    bet,
-    setScore,
-    gameContext.finalValues,
-    gameContext.complete,
-    scoreContext.scoreRoll,
-    profileContext.credit,
-    transactionContext.addTransaction,
-  ]);
-
-  return <PlayContext value={ { play, score } }>{ children }</PlayContext>
+  return <PlayContext value={ { play } }>{ children }</PlayContext>
 };
 
 export { PlayContext, PlayProvider };
