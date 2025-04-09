@@ -22,4 +22,10 @@ export default class Storage {
 
     return value === void 0 || value === null ? fallback : value;
   }
+
+  remove(key: string): void {
+    try {
+      window.localStorage.removeItem(key);
+    } catch (error) {}
+  }
 }

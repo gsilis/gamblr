@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useState } from "react";
+import { use, useCallback, useMemo, useState } from "react";
 import type { CityKey } from "~/constants/city";
 import { ScreenPrompt } from "../screen-prompt/screen-prompt";
 import "./nuclear-option.css";
+import { NuclearOptionContext } from "~/contexts/nuclear-option-context";
 
 export type NuclearOptionProps = {
   city: CityKey,
@@ -9,6 +10,8 @@ export type NuclearOptionProps = {
 };
 
 export default function NuclearOption(props: NuclearOptionProps) {
+  const nuclearOptionContext = use(NuclearOptionContext);
+
   const [phrase, setPhrase] = useState('');
   const [touched, setTouched] = useState(false);
   const rando = useMemo(() => {
@@ -25,9 +28,9 @@ export default function NuclearOption(props: NuclearOptionProps) {
   }, [setPhrase, setTouched, rando]);
   const onConfirm = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     if (`${phrase}` === `${rando}`) {
-      alert('To be implemented!');
+      nuclearOptionContext.eraseEverything();
     }
-  }, [phrase, rando]);
+  }, [phrase, rando, nuclearOptionContext.eraseEverything]);
   const onTouch = useCallback(() => {
     setTouched(true);
   }, [setTouched]);

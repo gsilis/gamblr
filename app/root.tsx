@@ -15,6 +15,7 @@ import { TransactionProvider } from "~/contexts/transaction-context";
 import { GameProvider } from "./contexts/game-context";
 import { ScoreProvider } from "./contexts/score-context";
 import { PlayProvider } from "./contexts/play-context";
+import { NuclearOptionProvider } from "./contexts/nuclear-option-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -63,17 +64,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <StorageProvider>
-      <TransactionProvider>
-        <ProfileProvider>
-          <ScoreProvider>
-            <GameProvider>
-              <PlayProvider>
-                <Outlet />
-              </PlayProvider>
-            </GameProvider>
-          </ScoreProvider>
-        </ProfileProvider>
-      </TransactionProvider>
+      <NuclearOptionProvider>
+        <TransactionProvider>
+          <ProfileProvider>
+            <ScoreProvider>
+              <GameProvider>
+                <PlayProvider>
+                  <Outlet />
+                </PlayProvider>
+              </GameProvider>
+            </ScoreProvider>
+          </ProfileProvider>
+        </TransactionProvider>
+      </NuclearOptionProvider>  
     </StorageProvider>
   );
 }

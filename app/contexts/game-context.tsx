@@ -1,11 +1,7 @@
-import { createContext, use, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { type GameData } from "~/objects/game";
 import { type RollNumber } from "~/objects/roll-number";
 import { Roll, ROLL_COMPLETE, ROLL_START, ROLL_TICK } from "~/objects/roll";
-import { ScoreContext } from "./score-context";
-import { ProfileContext } from "./profile-context";
-import { TransactionContext } from "./transaction-context";
-import { type Score } from "~/objects/scorer";
 
 type Game = {
   complete: boolean,
