@@ -1,7 +1,7 @@
 import { createContext, use, useCallback, useState } from 'react';
 import type { CityKey } from '~/constants/city';
 import { StorageContext } from '~/contexts/storage-context';
-import { CITY, BALANCE } from '~/constants/storage';
+import { CITY, BALANCE, FLED_CITIES } from '~/constants/storage';
 
 export type ProfileContextType = {
   city: CityKey | null,
@@ -9,6 +9,7 @@ export type ProfileContextType = {
   balance: number,
   debit: (value: number) => void,
   credit: (value: number) => void,
+  fledCities: CityKey[],
 };
 
 const ProfileContext = createContext<ProfileContextType>({
@@ -17,11 +18,13 @@ const ProfileContext = createContext<ProfileContextType>({
   balance: 0,
   debit: (v: number) => {},
   credit: (v: number) => {},
+  fledCities: [],
 });
 const ProfileProvider = ({ children }: { children: any }) => {
   const storageContext = use(StorageContext);
   const savedCity = storageContext.load(CITY, null);
   const savedBalance = storageContext.load(BALANCE, 0);
+  const fledCities = storageContext.load(FLED_CITIES, []);
 
   if (!storageContext) {
     throw new Error('Needs to be wrapped with a storage context');
@@ -46,16 +49,21 @@ const ProfileProvider = ({ children }: { children: any }) => {
   );
   }, [setBalance, storageContext]);
   const setSaveCity = useCallback((value: CityKey) => {
+    if (city) {
+      storageContext.save(FLED_CITIES, [...fledCities, city]);
+    }
+
     storageContext.save(CITY, value);
     setCity(value);
-  }, [setCity]);
+  }, [setCity, city, fledCities]);
 
   const value: ProfileContextType = {
     city,
     setCity: setSaveCity,
     balance,
     debit,
-    credit
+    credit,
+    fledCities,
   };
 
   return <ProfileContext value={ value }>{ children }</ProfileContext>;

@@ -1,12 +1,27 @@
 import type { CityKey } from "~/constants/city";
+import Picker from "../picker/picker";
+import Cities from "~/constants/city";
 
 type ResetProps = {
   city: CityKey,
   balance: number,
 };
 
+const options = Cities.map(city => {
+  return {
+    title: city,
+    available: true,
+    value: city,
+  };
+});
+
 export default function Reset(resetProps: ResetProps) {
   return <>
-    Reset
+    <Picker
+      options={ options }
+      prompt={ 'Where do you want to go today?' }
+      confirm={ 'Fly' }
+      onSelect={ () => {} }
+    />
   </>;
 }
