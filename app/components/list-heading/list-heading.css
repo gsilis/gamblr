@@ -1,0 +1,13 @@
+.list-heading {
+  display: flex;
+  flex-direction: row;
+}
+
+.list-heading > span {
+  flex: var(--size) 0;
+}
+
+.list-heading > span[data-space="1"] { --size: 1; }
+.list-heading > span[data-space="2"] { --size: 2; }
+.list-heading > span[data-space="3"] { --size: 3; }
+.list-heading > span[data-space="4"] { --size: 4; }

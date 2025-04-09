@@ -1,47 +1,11 @@
-.picker {
-  --selected: linear-gradient(90deg, var(--accent-primary-30), var(--accent-primary-0));
-  --hover: linear-gradient(90deg, var(--gray-30), var(--gray-0));
-  --font-size: 36px;
-  --border-color: var(--gray);
-
-  color: var(--light);
-  font-size: var(--font-size);
-  display: flex;
-  flex-direction: column;
-  max-height: 100vh;
-  font-family: Roboto;
-}
-
-.picker .title {
-  padding: 2em 1em 1em;
-  flex: 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.picker .footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  flex: 0;
-  padding: 1em;
-  border-top: 1px solid var(--border-color);
-}
-
-.picker .footer button {
-  border: none;
-  font-size: 1em;
-  background: transparent;
-  color: var(--light);
-  cursor: pointer;
-}
-
 .picker .footer button.invalid {
   opacity: 0.4;
 }
 
 .picker .options {
   flex: 1;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: stretch;

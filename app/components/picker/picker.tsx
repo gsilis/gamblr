@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { ScreenPrompt } from "../screen-prompt/screen-prompt";
 import './picker.css';
 
 export type PickerOption = {
@@ -32,24 +33,30 @@ export default function Picker({
     onSelect(selectedOption);
   }, [selectedOption, setSelectedOption, onSelect]);
   const confirmClasses = !!selectedOption ? '' : 'invalid';
+  const promptClasses = useMemo(() => {
+    const classes = ['picker'];
 
-  return <section className="picker">
-    <header className="title">
-      { prompt }
-    </header>
-    <main className="options">
-      {
-        options.map(option => {
-          const active = selectedOption === option ? 'active option' : 'option';
+    if (!!selectedOption) {
+      classes.push('invalid');
+    }
 
-          return <div onClick={ () => setSelectedOption(option) } key={ option.value } className={ active }>
-            { option.title }
-          </div>;
-        })
-      }
-    </main>
-    <footer className="footer">
-      <button onClick={ onConfirm } className={ confirmClasses }>{ confirm }</button>
-    </footer>
-  </section>;
+    return classes;
+  }, [selectedOption]);
+
+  return <ScreenPrompt
+    className={ promptClasses.join(' '  ) }
+    title={ prompt }
+    onConfirm={ onConfirm }
+    confirmText={ confirm }
+  >
+    {
+      options.map(option => {
+        const active = selectedOption === option ? 'active option' : 'option';
+
+        return <div onClick={ () => setSelectedOption(option) } key={ option.value } className={ active }>
+          { option.title }
+        </div>;
+      })
+    }
+  </ScreenPrompt>;
 }

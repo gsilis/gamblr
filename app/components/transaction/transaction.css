@@ -1,0 +1,6 @@
+.transaction { display: flex; }
+.transaction span { flex: var(--size) 0; }
+.transaction span.description { --size: 3; }
+.transaction span.category { --size: 1; }
+.transaction span.created { --size: 1; }
+.transaction span.amount { --size: 2; }

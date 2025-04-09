@@ -4,5 +4,5 @@ export type TransactionType = {
   amount: number,
   description: string,
   category: TransactionKey,
-  created: Date,
+  created: Date | string,
 }

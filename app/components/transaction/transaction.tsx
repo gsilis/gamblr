@@ -1,11 +1,16 @@
 import type { TransactionType } from "~/types/transaction-type"
+import Date, { FORMAT_FULL } from "../date/date";
+import "./transaction.css";
+import Currency from "../currency/currency";
 
 const Transaction = ({ transaction }: { transaction: TransactionType }) => {
-  return <div>
+  return <div className="transaction">
     <span className="description">{ transaction.description }</span>
     <span className="category">{ transaction.category }</span>
-    <span className="created">{ transaction.created.toString() }</span>
-    <span className="amount">{ transaction.amount }</span>
+    <span className="created">
+      <Date date={ transaction.created } format={ FORMAT_FULL } />
+    </span>
+    <Currency className="amount" amount={ transaction.amount } />
   </div>;
 }
 

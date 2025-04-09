@@ -1,0 +1,43 @@
+.nuclear-option .field {
+  display: grid;
+  flex-direction: column;
+  grid-template-areas:  "label label"
+                        "field validation";
+  grid-template-columns: 1fr 32px;
+  grid-template-rows: auto 1fr;
+  gap: 15px;
+}
+
+.nuclear-option .field label {
+  grid-area: label;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.nuclear-option .field input {
+  grid-area: field;
+  font-size: 36px;
+  background-color: var(--dark);
+  border: 1px solid var(--accent-primary-30);
+  border-radius: 5px;
+  color: var(--light);
+  padding: 7.5px 15px;
+  font-family: monospace;
+}
+
+.nuclear-option .phrase {
+  padding: 7.5px;
+  background: var(--selected-gradient);
+  font-family: monospace;
+  border: 1px solid var(--accent-primary-30);
+  margin: 0 7.5px;
+}
+
+.nuclear-option .validation {
+  grid-area: validation;
+  padding: 5px;
+  font-size: 32px;
+}
+.nuclear-option .validation.clean { color: var(--neutral); }
+.nuclear-option .validation.invalid { color: var(--invalid); }
+.nuclear-option .validation.valid { color: var(--valid); }
