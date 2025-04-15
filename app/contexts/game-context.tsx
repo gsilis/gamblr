@@ -1,126 +1,56 @@
-import { createContext, use, useCallback, useEffect, useMemo, useState } from "react";
-import { type GameData } from "~/objects/game";
-import { type RollNumber } from "~/objects/roll-number";
-import { Roll, ROLL_COMPLETE, ROLL_START, ROLL_TICK } from "~/objects/roll";
-import { PlayContext } from "./play-context";
-import { ScoreContext } from "./score-context";
-import type { Score } from "~/objects/scorer";
-import { ProfileContext } from "./profile-context";
-import { TransactionContext } from "./transaction-context";
+import { createContext, use, useMemo, useState } from "react";
+import type { GameComponent } from "~/interfaces/game-component";
+import { type GameProgram } from "~/interfaces/game-program";
+import { GameComponent as NullGameComponent } from "~/games/null/game-component";
+import { GameProgram as NullGameProgram } from "~/games/null/game-program";
+import { NULL, type GameType } from "~/constants/game-type";
+import { StorageContext } from "./storage-context";
+import { componentFor } from "~/constants/game-config";
+import { FactoryContext } from "./factory-context";
 
-type Game = {
-  complete: boolean,
-  displayValues: (RollNumber | null)[],
-  finalValues: (RollNumber | null)[],
-  maxCycles: number[],
-  cycles: number[],
-  roll: (count: number, bet: number) => void,
-  isRolling: boolean,
-  score: Score | null,
+/**
+ * Keeps track of the current running game program for
+ * integration into React.
+ */
+interface GameContextShape {
+  game: GameType,
+  gameProgram: GameProgram,
+  gameComponent: React.ComponentType<GameComponent>,
+  setGame(name: GameType): void,
 };
 
-const GameContext = createContext<Game>({
-  complete: false,
-  displayValues: [],
-  finalValues: [],
-  maxCycles: [],
-  cycles: [],
-  roll: (_count: number, _bet: number) => {},
-  isRolling: false,
-  score: null,
+export const GameContext = createContext<GameContextShape>({
+  game: NULL,
+  gameProgram: new NullGameProgram(),
+  gameComponent: NullGameComponent,
+  setGame(_name: GameType) {}
 });
 
-const GameProvider = ({
+export function GameProvider({
   children,
 }: {
   children: any
-}) => {
-  const scoreContext = use(ScoreContext);
-  const profileContext = use(ProfileContext);
-  const transactionContext = use(TransactionContext);
-  const [bet, setBet] = useState(0);
-  const [score, setScore] = useState<Score | null>(null);
-  const [isRolling, setIsRolling] = useState(false);
-  const [complete, setComplete] = useState(false);
-  const [displayValues, setDisplayValues] = useState<(RollNumber | null)[]>([]);
-  const [finalValues, setFinalValues] = useState<(RollNumber | null)[]>([]);
-  const [maxCycles, setMaxCycles] = useState<number[]>([]);
-  const [cycles, setCycles] = useState<number[]>([]);
-  const rollData = useMemo(() => new Roll(), []);
+}) {
+  const factoryContext = use(FactoryContext);
 
-  const doRoll = useCallback((count: number, bet: number) => {
-    rollData.reset();
-    setBet(bet);
-    rollData.roll(count);
-  }, [rollData, setBet]);
+  const [game, setGame] = useState<GameType>(NULL);
 
-  const onStart = useCallback((event: CustomEvent) => {
-    const gameData = event.detail.games as GameData[];
+  const gameProgram = useMemo<GameProgram>(() => {
+    return factoryContext.gameFactory.createFor(game);
+  }, [game, factoryContext.gameFactory]);
 
-    setComplete(false);
-    setIsRolling(true);
-    setFinalValues([]);
-    setMaxCycles(gameData.map(g => g.cycles));
-  }, [setComplete, setFinalValues, setMaxCycles, setIsRolling]);
+  const gameComponent = useMemo<React.ComponentType<GameComponent>>(() => {
+    return componentFor(game);
+  }, [game]);
 
-  const onTick = useCallback((event: CustomEvent) => {
-    const gameData = event.detail.games as GameData[];
-
-    setDisplayValues(gameData.map(g => g.value));
-    setCycles(gameData.map(g => g.cycle));
-  }, [setDisplayValues, setCycles]);
-
-  const onComplete = useCallback((event: CustomEvent) => {
-    const gameData = event.detail.games as GameData[];
-    const games = gameData.map(g => g.value) as RollNumber[];
-
-    setIsRolling(false);
-    setComplete(true);
-    setFinalValues(games);
-
-    const score = scoreContext.scoreRoll(games, bet);
-    setScore(score);
-
-    if (score.payout > 0) {
-      profileContext.credit(score.payout);
-      transactionContext.addTransaction(transactionContext.createWin(score.payout));
-    }
-  }, [
-    setComplete,
-    setFinalValues,
-    setIsRolling,
-    scoreContext.scoreRoll,
-    bet,
-    setScore,
-    profileContext.credit,
-    transactionContext.addTransaction,
-    transactionContext.createWin
-  ]);
-
-  useEffect(() => {
-    rollData.addEventListener(ROLL_COMPLETE, onComplete as EventListenerOrEventListenerObject);
-    rollData.addEventListener(ROLL_START, onStart as EventListenerOrEventListenerObject);
-    rollData.addEventListener(ROLL_TICK, onTick as EventListenerOrEventListenerObject);
-
-    return () => {
-      rollData.removeEventListener(ROLL_COMPLETE, onComplete as EventListenerOrEventListenerObject);
-      rollData.removeEventListener(ROLL_START, onStart as EventListenerOrEventListenerObject);
-      rollData.removeEventListener(ROLL_TICK, onTick as EventListenerOrEventListenerObject);
-    };
-  }, [rollData, onComplete, onStart, onTick]);
-
-  const value = {
-    complete,
-    displayValues,
-    finalValues,
-    maxCycles,
-    cycles,
-    isRolling,
-    roll: doRoll,
-    score,
+  const api = {
+    game,
+    gameProgram,
+    gameComponent,
+    setGame,
   };
 
-  return <GameContext value={ value }>{ children }</GameContext>;
-};
+  return <GameContext value={ api }>{ children }</GameContext>;
+}
 
-export { GameContext, GameProvider };
+export default { GameContext, GameProvider };

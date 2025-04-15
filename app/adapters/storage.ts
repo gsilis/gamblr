@@ -1,7 +1,9 @@
-export default class Storage {
+import type { RawStorage } from "~/interfaces/raw-storage";
+
+export default class Storage implements RawStorage {
   constructor() {}
 
-  save(key: string, data: any) {
+  save(key: string, data: string) {
     try {
       const stringified = JSON.stringify(data);
 
@@ -9,7 +11,7 @@ export default class Storage {
     } catch (error) {}
   }
 
-  retrieve(key: string, fallback: any): any {
+  retrieve(key: string, fallback: string): string {
     let value;
 
     try {

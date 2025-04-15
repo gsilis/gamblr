@@ -1,7 +1,7 @@
-import type { CityKey } from "~/constants/city";
+import type { City, CityKey } from "~/constants/city";
 
 type PawnShopProps = {
-  city: CityKey,
+  city: City,
   balance: number,
 };
 

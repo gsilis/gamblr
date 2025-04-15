@@ -8,7 +8,7 @@ export type ScreenPromptOptions = {
   onConfirm: (() => void) | ((event: React.MouseEvent<HTMLButtonElement>) => void),
   cancelText?: any,
   confirmText: any,
-  padded: boolean,
+  padded?: boolean,
 };
 
 export const ScreenPrompt = ({

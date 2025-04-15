@@ -9,13 +9,13 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { ProfileProvider } from "~/contexts/profile-context";
 import { StorageProvider } from "~/contexts/storage-context";
-import { TransactionProvider } from "~/contexts/transaction-context";
-import { GameProvider } from "./contexts/game-context";
-import { ScoreProvider } from "./contexts/score-context";
-import { PlayProvider } from "./contexts/play-context";
 import { NuclearOptionProvider } from "./contexts/nuclear-option-context";
+import { AccountProvider } from "./contexts/account-context";
+import FactoryContext, { FactoryProvider } from "./contexts/factory-context";
+import { GameApiProvider } from "./contexts/game-api-context";
+import { GameProvider } from "./contexts/game-context";
+import { CityProvider } from "./contexts/city-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -64,19 +64,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <StorageProvider>
-      <NuclearOptionProvider>
-        <TransactionProvider>
-          <ProfileProvider>
-            <ScoreProvider>
-              <GameProvider>
-                <PlayProvider>
+      <FactoryProvider>
+        <AccountProvider>
+          <GameApiProvider>
+            <GameProvider>
+              <CityProvider>
+                <NuclearOptionProvider>
                   <Outlet />
-                </PlayProvider>
-              </GameProvider>
-            </ScoreProvider>
-          </ProfileProvider>
-        </TransactionProvider>
-      </NuclearOptionProvider>  
+                </NuclearOptionProvider>
+              </CityProvider>
+            </GameProvider>
+          </GameApiProvider>
+        </AccountProvider>
+      </FactoryProvider>
     </StorageProvider>
   );
 }

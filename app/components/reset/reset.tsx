@@ -1,9 +1,9 @@
-import type { CityKey } from "~/constants/city";
+import type { City } from "~/constants/city";
 import Picker from "../picker/picker";
 import Cities from "~/constants/city";
 
 type ResetProps = {
-  city: CityKey,
+  city: City,
   balance: number,
 };
 

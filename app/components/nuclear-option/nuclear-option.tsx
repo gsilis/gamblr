@@ -1,11 +1,11 @@
 import { use, useCallback, useMemo, useState } from "react";
-import type { CityKey } from "~/constants/city";
+import type { City } from "~/constants/city";
 import { ScreenPrompt } from "../screen-prompt/screen-prompt";
 import "./nuclear-option.css";
 import { NuclearOptionContext } from "~/contexts/nuclear-option-context";
 
 export type NuclearOptionProps = {
-  city: CityKey,
+  city: City,
   balance: number,
 };
 

@@ -1,17 +1,17 @@
 import { use } from "react";
 import { Outlet } from "react-router";
 import Balance from "~/components/balance/balance";
-import { ProfileContext } from "~/contexts/profile-context";
+import { AccountContext } from "~/contexts/account-context";
 import './play.css';
 
 export default function Play() {
-  const profile = use(ProfileContext);
+  const accountContext = use(AccountContext);
 
-  if (!profile) {
+  if (!accountContext) {
     throw new Error('Cannot load profile context');
   }
 
-  const balance = profile.balance;
+  const balance = accountContext.balance;
 
   return <div className="play-layout">
     <Balance balance={ balance } />
