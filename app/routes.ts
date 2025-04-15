@@ -5,7 +5,7 @@ export default [
     index('./routes/redirect-user.tsx'),
     layout('./layouts/play/play.tsx', [
       ...prefix('play', [
-        index('./routes/picker-router.tsx'),
+        index('./routes/game-picker-router.tsx'),
         route('picker', './routes/game-picker-route.tsx'),
         route(':gameName', './routes/play-route.tsx')
       ]),

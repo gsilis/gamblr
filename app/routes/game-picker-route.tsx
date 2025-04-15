@@ -1,4 +1,5 @@
 import { use } from "react";
+import { GamePicker } from "~/components/game-picker/game-picker";
 import { GameContext } from "~/contexts/game-context";
 
 export default function GamePickerRoute() {
@@ -6,5 +7,5 @@ export default function GamePickerRoute() {
 
   const selectedGame = gameContext.game;
 
-  return <>Picker page</>;
+  return <GamePicker game={ selectedGame }></GamePicker>;
 }
