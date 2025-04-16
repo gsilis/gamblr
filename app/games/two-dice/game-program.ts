@@ -57,7 +57,6 @@ export class GameProgram implements GameProgramInterface {
    * Score final values in die
    */
   score = (bets: Bet): number => {
-    console.log(`SCORING ${Date.now()}`);
     const values = this._dieRoll.values(2);
     const score = this._scorer.score(bets, values, this.streak);
 

@@ -43,7 +43,6 @@ export const GameComponent = ({ balance, program, deposit, withdraw } :GameCompo
   }, [setProgress]);
 
   const onComplete = useCallback(() => {
-    console.log('COMPLETED!!');
     setRolling(false);
     deposit(game.score({
       pair,
@@ -155,7 +154,6 @@ export const GameComponent = ({ balance, program, deposit, withdraw } :GameCompo
     game.roll.addEventListener(EVENT_PROGRESS, onProgress);
 
     return () => {
-      console.log('CLEANING UP');
       game.roll.removeEventListener(EVENT_VALUE, onValue);
       game.roll.removeEventListener(EVENT_COMPLETE, onComplete);
       game.roll.removeEventListener(EVENT_PROGRESS, onProgress);

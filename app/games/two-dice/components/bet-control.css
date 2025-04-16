@@ -20,7 +20,7 @@
 .control input,
 .control button {
   font-size: 14px;
-  margin: 0 10px;
+  margin: 0 5px;
 }
 
 .control input {
@@ -45,8 +45,12 @@
   border: 1px solid var(--style);
   border-radius: 10px;
   color: var(--style);
-  padding: 3px 10px;
+  padding: 3px 6px;
   cursor: pointer;
+}
+
+.control button:hover {
+  background: black;
 }
 
 .control button.even {
