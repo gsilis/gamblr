@@ -1,5 +1,5 @@
 import { use } from "react";
-import { Navigate } from "react-router";
+import { Navigate, useParams } from "react-router";
 import GameRenderer from "~/components/game-renderer/game-renderer";
 import { CityContext } from '~/contexts/city-context';
 import { GameContext } from "~/contexts/game-context";

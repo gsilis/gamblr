@@ -1,7 +1,12 @@
-import { GameApi } from "~/game-support/game-api";
 import type { GameProgram } from "./game-program";
+import type { StorageFactory } from "~/factories/storage-factory";
 
 export interface GameComponent {
-  api: GameApi,
-  program: GameProgram
+  balance: number,
+  deposit(amount: number): void,
+  withdraw(amount: number): void,
+
+  storageFactory: StorageFactory,
+
+  program: GameProgram,
 }

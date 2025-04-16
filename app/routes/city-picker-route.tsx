@@ -1,6 +1,6 @@
 import Picker, { type PickerOption } from '~/components/picker/picker';
 import Cities from '~/constants/city';
-import type { CityKey } from '~/constants/city';
+import { type City } from '~/constants/city';
 import { use, useCallback } from 'react';
 import { CityContext } from '~/contexts/city-context';
 import { useNavigate } from 'react-router';
@@ -24,7 +24,7 @@ export default function CityPickerRoute() {
   }
 
   const onSelect = useCallback((option: PickerOption) => {
-    const city = option.value as CityKey;
+    const city = option.value as City;
     cityContext.travel(city);
     accountContext.deposit(1000);
     navigate('/play');

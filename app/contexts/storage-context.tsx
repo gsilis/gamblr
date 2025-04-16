@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo } from "react";
+import { createContext, useMemo } from "react";
 import Storage from "../adapters/storage";
 import type { RawStorage } from "~/interfaces/raw-storage";
 import NullStorage from "~/adapters/null-storage";

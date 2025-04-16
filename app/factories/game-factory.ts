@@ -5,20 +5,16 @@ import type { GameProgram } from "~/interfaces/game-program";
 
 export class GameFactory {
   static default(): GameFactory {
-    return new GameFactory(
-      GameApi.defaultValue
-    );
+    return new GameFactory();
   }
 
-  constructor(
-    private gameApi: GameApi
-  ) {}
+  constructor() {}
 
   createFor(gameName: GameType): GameProgram {
     const setting = GameConfig[gameName];
     const GameData = setting.data;
     const program = new GameData();
-    program.setup(this.gameApi);
+    program.setup();
 
     return program;
   }

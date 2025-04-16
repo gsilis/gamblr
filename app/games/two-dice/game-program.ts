@@ -5,11 +5,9 @@ import { GameApi } from "~/game-support/game-api";
 export class GameProgram implements GameProgramInterface {
   name = TWO_DICE;
 
-  private _api: GameApi = GameApi.defaultValue;
   private _isRunning: boolean = false;
 
-  setup(api: GameApi): void {
-    this._api = api;
+  setup(): void {
     this._isRunning = true;
   }
 
@@ -19,9 +17,5 @@ export class GameProgram implements GameProgramInterface {
 
   get isRunning(): boolean {
     return this._isRunning;
-  }
-
-  get api(): GameApi {
-    return this._api;
   }
 }

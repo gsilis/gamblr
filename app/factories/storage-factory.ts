@@ -1,6 +1,5 @@
 import NullStorage from "~/adapters/null-storage";
 import { KeyedStorage } from "~/game-support/keyed-storage";
-import type { SimpleStorage } from "~/interfaces/simple-storage";
 import type { RawStorage } from "~/interfaces/raw-storage";
 
 export class StorageFactory {

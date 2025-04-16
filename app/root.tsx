@@ -12,8 +12,7 @@ import "./app.css";
 import { StorageProvider } from "~/contexts/storage-context";
 import { NuclearOptionProvider } from "./contexts/nuclear-option-context";
 import { AccountProvider } from "./contexts/account-context";
-import FactoryContext, { FactoryProvider } from "./contexts/factory-context";
-import { GameApiProvider } from "./contexts/game-api-context";
+import { FactoryProvider } from "./contexts/factory-context";
 import { GameProvider } from "./contexts/game-context";
 import { CityProvider } from "./contexts/city-context";
 
@@ -66,15 +65,13 @@ export default function App() {
     <StorageProvider>
       <FactoryProvider>
         <AccountProvider>
-          <GameApiProvider>
-            <GameProvider>
-              <CityProvider>
-                <NuclearOptionProvider>
-                  <Outlet />
-                </NuclearOptionProvider>
-              </CityProvider>
-            </GameProvider>
-          </GameApiProvider>
+          <GameProvider>
+            <CityProvider>
+              <NuclearOptionProvider>
+                <Outlet />
+              </NuclearOptionProvider>
+            </CityProvider>
+          </GameProvider>
         </AccountProvider>
       </FactoryProvider>
     </StorageProvider>

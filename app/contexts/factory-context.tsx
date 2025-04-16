@@ -3,7 +3,6 @@ import { AccountFactory } from "~/factories/account-factory";
 import { GameFactory } from "~/factories/game-factory";
 import { StorageFactory } from "~/factories/storage-factory";
 import { StorageContext } from "./storage-context";
-import { GameApiContext } from "./game-api-context";
 
 /**
  * Provides all of the factories we need to
@@ -25,7 +24,6 @@ export const FactoryContext = createContext<FactoryContextShape>({
 
 export function FactoryProvider({ children }: { children: any }) {
   const storageContext = use(StorageContext);
-  const gameApiContext = use(GameApiContext);
 
   const storageFactory = useMemo<StorageFactory>(() => {
     return new StorageFactory(storageContext.storage);
@@ -34,8 +32,8 @@ export function FactoryProvider({ children }: { children: any }) {
     return new AccountFactory(storageContext.storage, storageFactory);
   }, [storageContext.storage]);
   const gameFactory = useMemo<GameFactory>(() => {
-    return new GameFactory(gameApiContext.gameApi);
-  }, [gameApiContext.gameApi]);
+    return new GameFactory();
+  }, []);
 
   const api = {
     storageFactory,

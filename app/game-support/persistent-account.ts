@@ -10,7 +10,7 @@ export class PersistentAccount implements Account {
   transact(amount: number): number {
     const newBalance = this.account.transact(amount);
 
-    this.storage.save(amount);
+    this.storage.save(newBalance);
 
     return newBalance;
   }

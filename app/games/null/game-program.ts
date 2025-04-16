@@ -11,7 +11,7 @@ export class GameProgram implements GameProgramInterface {
 
   private _api: GameApi = GameApi.defaultValue;
 
-  setup(api: GameApi): void {
+  setup(): void {
     console.warn('Null game program is not meant to be used.');
   }
 

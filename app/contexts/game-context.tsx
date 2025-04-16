@@ -3,10 +3,10 @@ import type { GameComponent } from "~/interfaces/game-component";
 import { type GameProgram } from "~/interfaces/game-program";
 import { GameComponent as NullGameComponent } from "~/games/null/game-component";
 import { GameProgram as NullGameProgram } from "~/games/null/game-program";
-import { NULL, type GameType } from "~/constants/game-type";
-import { StorageContext } from "./storage-context";
+import { Games, NULL, type GameType } from "~/constants/game-type";
 import { componentFor } from "~/constants/game-config";
 import { FactoryContext } from "./factory-context";
+import { useParams } from "react-router";
 
 /**
  * Keeps track of the current running game program for
@@ -31,9 +31,10 @@ export function GameProvider({
 }: {
   children: any
 }) {
+  const params = useParams();
   const factoryContext = use(FactoryContext);
 
-  const [game, setGame] = useState<GameType>(NULL);
+  const [game, setGame] = useState<GameType>(Games[Games.indexOf(params.gameName as GameType)] || NULL);
 
   const gameProgram = useMemo<GameProgram>(() => {
     return factoryContext.gameFactory.createFor(game);

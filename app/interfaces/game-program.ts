@@ -9,9 +9,8 @@ import type { GameApi } from "~/game-support/game-api";
 export interface GameProgram {
   name: GameType;
 
-  setup(api: GameApi): void;
+  setup(): void;
   destroy(): void;
 
   get isRunning(): boolean;
-  get api(): GameApi;
 }
