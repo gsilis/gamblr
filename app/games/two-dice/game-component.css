@@ -1,0 +1,83 @@
+.bet-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.bet-controls > * {
+  margin: 15px 5px;
+}
+
+.dice-roll {
+  display: flex;
+  flex-direction: row;
+}
+
+.bet > * {
+  padding: 10px 0;
+  border-top: 1px solid var(--gray-30);
+}
+
+.datapoint {
+  display: flex;
+  flex-direction: row;
+  margin: 3px 15px;
+}
+
+.datapoint > * {
+  padding: 15px;
+}
+
+.datapoint label {
+  flex: 100px 0;
+  text-align: right;
+}
+
+.datapoint span {
+  flex: 1;
+  background: var(--datapoint-gradient);
+}
+
+.play {
+  margin: 30px 0;
+  width: 400px;
+  height: 50px;
+  background: var(--action-gradient);
+  border: 2px solid white;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px black;
+  text-transform: uppercase;
+  letter-spacing: 1em;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.totals {
+  margin: 30px;
+}
+
+.totals input,
+.totals button {
+  font-size: 20px;
+  margin: 0 15px;
+}
+
+.totals input {
+  width: 200px;
+  text-align: right;
+  font-family: monospace;
+  background: var(--gray-30);
+  padding: 15px;
+  border: 1px solid var(--gray-50);
+  color: white;
+}
+
+.totals button {
+  background: transparent;
+  border: none;
+  color: var(--neutral);
+  cursor: pointer;
+}

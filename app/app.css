@@ -12,6 +12,7 @@ body {
   --gray-2: rgb(75, 75, 75);
 
   --gray-30: rgba(51, 51, 51, 0.3);
+  --gray-50: rgba(51, 51, 51, 0.5);
   --gray-0: rgba(51, 51, 51, 0);
 
   --neutral: lightgray;
@@ -24,6 +25,7 @@ body {
   --dark-alternate: rgb(0, 7, 20);
   --light: rgb(255, 255, 255);
   --accent-primary: rgb(63, 169, 245);
+  --accent-primary-30: rgba(63, 169, 245, 0.3);
   --accent-secondary: rgb(255, 50, 172);
   --accent-primary-30: rgba(63, 169, 245, 0.3);
   --accent-primary-0: rgba(63, 169, 245, 0);
@@ -40,6 +42,8 @@ body {
   --background-secondary: var(--dark-2);
   --text-color: var(--light);
   --dice-dot: linear-gradient(45deg, rgb(242, 242, 242), rgb(179, 179, 179));
+
+  --datapoint-gradient: linear-gradient(165deg, var(--accent-primary-30) 0%, var(--background-dark) 40%);
 
   --win-gradient: conic-gradient(
     var(--win-2) 0deg,

@@ -1,0 +1,62 @@
+.control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  opacity: var(--strength);
+
+  --strength: 0.6;
+}
+
+.control.has-value {
+  background: var(--gray-30);
+  --strength: 0.9;
+}
+
+.control:hover {
+  --strength: calc(var(--strength) + 0.2);
+}
+
+.control input,
+.control button {
+  font-size: 14px;
+  margin: 0 10px;
+}
+
+.control input {
+  width: 4em;
+  background-color: transparent;
+  text-align: center;
+  border: none;
+  outline: none;
+  pointer-events: none;
+  color: var(--neutral);
+  font-family: monospace;
+}
+
+.control label {
+  flex: 100px 0;
+  text-align: right;
+}
+
+.control button {
+  flex: 20px 0;
+  background: transparent;
+  border: 1px solid var(--style);
+  border-radius: 10px;
+  color: var(--style);
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.control button.even {
+  --style: var(--neutral);
+}
+
+.control button.raise {
+  --style: var(--valid);
+}
+
+.control button.lower {
+  --style: var(--invalid);
+}
