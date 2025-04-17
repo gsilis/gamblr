@@ -2,15 +2,18 @@ import { createContext, use, useCallback, useMemo, useState } from "react";
 import Cities, { type City } from "~/constants/city";
 import { FactoryContext } from "./factory-context";
 import type { KeyedStorage } from "~/game-support/keyed-storage";
+import { deduplicated } from "~/utilities/array";
 
 interface CityContextShape {
   city: City | null,
   travel(city: City): void,
+  visitedCities: City[],
 }
 
 export const CityContext = createContext<CityContextShape>({
   city: null,
-  travel(_city: City) {}
+  travel(_city: City) {},
+  visitedCities: [],
 });
 
 export function CityProvider({ children }: { children: any }) {
@@ -27,16 +30,39 @@ export function CityProvider({ children }: { children: any }) {
     );
   }, [storageFactory]);
 
+  const visitedCityStore = useMemo(() => {
+    return storageFactory.createStringKeyedStorage<City[]>(
+      'gambling-visited-cities',
+      ((cities) => cities.filter(Boolean).join('|')),
+      ((cities: string): City[] => {
+        const parsed = cities.split('|');
+
+        return (parsed as City[]) || [];
+      })
+    );
+  }, [storageFactory]);
+
   const [city, setCity] = useState<City | null>(cityStore.retrieve(null));
+  const [visitedCities, setVisitedCities] = useState<City[]>(visitedCityStore.retrieve([]));
+
+  const tickCity = useCallback((city: City) => {
+    const visitedCities = visitedCityStore.retrieve([]);
+    const newVisitedCities = deduplicated<City>([ ...visitedCities, city ]);
+
+    visitedCityStore.save(newVisitedCities);
+    setVisitedCities(newVisitedCities);
+  }, [visitedCityStore.save, setVisitedCities, visitedCities]);
 
   const travel = useCallback((city: City) => {
     setCity(city);
     cityStore.save(city);
-  }, [setCity, cityStore.save]);
+    tickCity(city);
+  }, [setCity, cityStore.save, tickCity]);
 
   const api: CityContextShape = {
     city,
     travel,
+    visitedCities,
   };
 
   return <CityContext value={ api }>{ children }</CityContext>;

@@ -15,6 +15,7 @@ import { AccountProvider } from "./contexts/account-context";
 import { FactoryProvider } from "./contexts/factory-context";
 import { GameProvider } from "./contexts/game-context";
 import { CityProvider } from "./contexts/city-context";
+import { PawnShopProvider } from "./contexts/pawn-shop-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -68,7 +69,9 @@ export default function App() {
           <GameProvider>
             <CityProvider>
               <NuclearOptionProvider>
-                <Outlet />
+                <PawnShopProvider>
+                  <Outlet />
+                </PawnShopProvider>
               </NuclearOptionProvider>
             </CityProvider>
           </GameProvider>

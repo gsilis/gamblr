@@ -1,4 +1,4 @@
-import { createContext, use, useMemo, useState } from "react";
+import { createContext, use, useCallback, useMemo, useState } from "react";
 import type { GameComponent } from "~/interfaces/game-component";
 import { type GameProgram } from "~/interfaces/game-program";
 import { GameComponent as NullGameComponent } from "~/games/null/game-component";
@@ -17,13 +17,17 @@ interface GameContextShape {
   gameProgram: GameProgram,
   gameComponent: React.ComponentType<GameComponent>,
   setGame(name: GameType): void,
+  bets: number,
+  makeBet(): void,
 };
 
 export const GameContext = createContext<GameContextShape>({
   game: NULL,
   gameProgram: new NullGameProgram(),
   gameComponent: NullGameComponent,
-  setGame(_name: GameType) {}
+  setGame(_name: GameType) {},
+  bets: 0,
+  makeBet() {},
 });
 
 export function GameProvider({
@@ -35,6 +39,7 @@ export function GameProvider({
   const factoryContext = use(FactoryContext);
 
   const [game, setGame] = useState<GameType>(Games[Games.indexOf(params.gameName as GameType)] || NULL);
+  const [bets, setBets] = useState<number>(0);
 
   const gameProgram = useMemo<GameProgram>(() => {
     return factoryContext.gameFactory.createFor(game);
@@ -44,11 +49,17 @@ export function GameProvider({
     return componentFor(game);
   }, [game]);
 
+  const makeBet = useCallback(() => {
+    setBets(b => b + 1);
+  }, [setBets]);
+
   const api = {
     game,
     gameProgram,
     gameComponent,
     setGame,
+    bets,
+    makeBet,
   };
 
   return <GameContext value={ api }>{ children }</GameContext>;
