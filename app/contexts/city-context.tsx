@@ -3,6 +3,7 @@ import Cities, { type City } from "~/constants/city";
 import { FactoryContext } from "./factory-context";
 import type { KeyedStorage } from "~/game-support/keyed-storage";
 import { deduplicated } from "~/utilities/array";
+import { GAMBLING_CITY, VISITED_CITIES } from "~/constants/storage";
 
 interface CityContextShape {
   city: City | null,
@@ -22,7 +23,7 @@ export function CityProvider({ children }: { children: any }) {
   
   const cityStore = useMemo<KeyedStorage<City | null>>(() => {
     return storageFactory.createStringKeyedStorage<City | null>(
-      'gambling-city',
+      GAMBLING_CITY,
       (city => `${city}`),
       (savedCity: string): City | null => {
         return Cities[Cities.indexOf(savedCity as City)] || null;
@@ -32,7 +33,7 @@ export function CityProvider({ children }: { children: any }) {
 
   const visitedCityStore = useMemo(() => {
     return storageFactory.createStringKeyedStorage<City[]>(
-      'gambling-visited-cities',
+      VISITED_CITIES,
       ((cities) => cities.filter(Boolean).join('|')),
       ((cities: string): City[] => {
         const parsed = cities.split('|');

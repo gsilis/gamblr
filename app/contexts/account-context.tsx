@@ -2,6 +2,7 @@ import { use, useCallback, useMemo, useState } from "react";
 import { createContext } from "react";
 import { type Account as AccountInterface } from "~/interfaces/account";
 import { FactoryContext } from "./factory-context";
+import { FUNDS } from "~/constants/storage";
 
 interface AccountContextShape {
   balance: number,
@@ -19,7 +20,7 @@ export function AccountProvider({ children }: { children: any }) {
   const factoryContext = use(FactoryContext);
 
   const account = useMemo<AccountInterface>(() => {
-    return factoryContext.accountFactory.createPersistentAccount('gambling-funds');
+    return factoryContext.accountFactory.createPersistentAccount(FUNDS);
   }, [factoryContext.accountFactory]);
 
   const [balance, setBalance] = useState<number>(account.balance);

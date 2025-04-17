@@ -3,6 +3,7 @@ import { assetFor, type ASSET_NAME } from "~/constants/pawn-asset";
 import { AccountContext } from "./account-context";
 import { FactoryContext } from "./factory-context";
 import type { KeyedStorage } from "~/game-support/keyed-storage";
+import { PAWN_ASSETS } from "~/constants/storage";
 
 type AssetBalances = {
   [key in ASSET_NAME]?: number
@@ -32,7 +33,7 @@ export function PawnShopProvider({
 
   const assetStore = useMemo<KeyedStorage<AssetBalances>>(() => {
     return factoryContext.storageFactory.createStringKeyedStorage(
-      'gambling-pawn-assets',
+      PAWN_ASSETS,
       (balances) => JSON.stringify(balances),
       (stringBalances) => {
         try {
