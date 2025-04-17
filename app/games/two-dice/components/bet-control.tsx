@@ -6,6 +6,8 @@ interface BetControlProps {
   value: number,
   setValue: React.Dispatch<React.SetStateAction<number>>,
   disabled?: boolean,
+  magnitude: number,
+  suffix: string,
 }
 
 export default function BetControl({
@@ -13,6 +15,8 @@ export default function BetControl({
   value,
   setValue,
   disabled = false,
+  magnitude,
+  suffix,
 }: BetControlProps) {
   const classes = ['control'];
   const addValue = useCallback((delta: number) => {
@@ -31,17 +35,8 @@ export default function BetControl({
     <label>{ title }</label>
     <button className="even" onClick={ () => addValue(-value) }>0</button>
     <input type="text" value={ value } readOnly />
-    <button className="raise" onClick={ () => addValue(1) }>1</button>
-    <button className="raise" onClick={ () => addValue(10) }>10</button>
-    <button className="raise" onClick={ () => addValue(100) }>100</button>
-    <button className="raise" onClick={ () => addValue(1000) }>1K</button>
-    <button className="raise" onClick={ () => addValue(10000) }>10K</button>
-    <button className="raise" onClick={ () => addValue(100000) }>100K</button>
-    <button className="raise" onClick={ () => addValue(1000000) }>1M</button>
-    <button className="raise" onClick={ () => addValue(10000000) }>10M</button>
-    <button className="raise" onClick={ () => addValue(100000000) }>100M</button>
-    <button className="raise" onClick={ () => addValue(1000000000) }>1B</button>
-    <button className="raise" onClick={ () => addValue(10000000000) }>10B</button>
-    <button className="raise" onClick={ () => addValue(100000000000) }>100B</button>
+    <button className="raise" onClick={ () => addValue(1 * magnitude) }>1{ suffix }</button>
+    <button className="raise" onClick={ () => addValue(10 * magnitude) }>10{ suffix }</button>
+    <button className="raise" onClick={ () => addValue(100 * magnitude) }>100{ suffix }</button>
   </div>;
 }

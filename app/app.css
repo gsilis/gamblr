@@ -1,7 +1,9 @@
 html,
 body {
-  --win-1: rgb(255, 174, 0);
-  --win-2: rgb(255, 217, 135);
+  --gold-1: rgb(255, 174, 0);
+  --gold-2: rgb(255, 217, 135);
+  --win-1: var(--gold-1);
+  --win-2: var(--gold-2);
 
   --dark-0: rgb(0, 7, 20);
   --dark-1: rgb(0, 7, 24);
@@ -13,6 +15,7 @@ body {
 
   --gray-30: rgba(51, 51, 51, 0.3);
   --gray-50: rgba(51, 51, 51, 0.5);
+  --gray-80: rgba(51, 51, 51, 0.8);
   --gray-0: rgba(51, 51, 51, 0);
 
   --neutral: lightgray;

@@ -1,13 +1,24 @@
 import { type GameComponent as GameComponentInterface } from "~/interfaces/game-component";
 import Roll from "~/components/roll/roll";
 import type { GameProgram } from "./game-program";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import BetControl from "./components/bet-control";
 import "./game-component.css";
 import { EVENT_COMPLETE, EVENT_PROGRESS, EVENT_VALUE, type DICE_VALUE } from "~/game-support/dice-roll";
+import BetMagnitude from "./components/bet-magnitude";
+import { BILLIONS, HUNDREDS, MILLIONS, QUADRILLIONS, THOUSANDS, TRILLIONS } from "~/constants/magnitude";
 
-export const GameComponent = ({ balance, program, deposit, withdraw } :GameComponentInterface) => {
+export const GameComponent = ({
+  program,
+  deposit,
+  withdraw,
+  storageFactory,
+} :GameComponentInterface) => {
   const game = program as GameProgram;
+
+  const magnitudeStorage = useMemo(() => {
+    return storageFactory.createNumericKeyedStorage('two-dice-magnitude');
+  }, [storageFactory]);
 
   const [values, setValues] = useState<DICE_VALUE[]>(game.roll.values(2));
   const [progress, setProgress] = useState(game.roll.progress(2));
@@ -27,6 +38,7 @@ export const GameComponent = ({ balance, program, deposit, withdraw } :GameCompo
   const [rolls, setRolls] = useState<number>(game.rollCount);
   const [lastWin, setLastWin] = useState<number>(game.lastWin);
   const [lastBet, setLastBet] = useState<number>(game.lastBet);
+  const [magnitude, setMagnitude] = useState(magnitudeStorage.retrieve(HUNDREDS));
 
   const onValue = useCallback((event: Event) => {
     const customEvent = event as CustomEvent;
@@ -41,6 +53,36 @@ export const GameComponent = ({ balance, program, deposit, withdraw } :GameCompo
 
     setProgress(progress);
   }, [setProgress]);
+
+  const onUpdateMagnitude = useCallback((value: number) => {
+    magnitudeStorage.save(value);
+    setMagnitude(value);
+  }, [magnitudeStorage.save, setMagnitude]);
+
+  const suffix = useMemo(() => {
+    switch (magnitude) {
+      case HUNDREDS:
+        return '';
+
+      case THOUSANDS:
+        return 'K';
+
+      case MILLIONS:
+        return 'M';
+      
+      case BILLIONS:
+        return 'B';
+
+      case TRILLIONS:
+        return 'T';
+
+      case QUADRILLIONS:
+        return 'Q';
+
+      default:
+        return '';
+    }
+  }, [magnitude]);
 
   const onComplete = useCallback(() => {
     setRolling(false);
@@ -174,17 +216,21 @@ export const GameComponent = ({ balance, program, deposit, withdraw } :GameCompo
     <button className="play" onClick={ () => onPlay() } disabled={ rolling }>Roll</button>
     <hr className="divider" />
     <div className="bet">
-      <BetControl title={ 'Pair' } value={ pair } setValue={ setPair } disabled={ rolling } />
-      <BetControl title={ 'Sum 7' } value={ sum7 } setValue={ setSum7 } disabled={ rolling } />
-      <BetControl title={ 'Sum < 7' } value={ sumSub7 } setValue={ setSumSub7 } disabled={ rolling } />
-      <BetControl title={ 'Sum > 7' } value={ sumPlus7 } setValue={ setSumPlus7 } disabled={ rolling } />
-      <BetControl title={ 'Sequence' } value={ sequence } setValue={ setSequence } disabled={ rolling } />
-      <BetControl title={ '1' } value={ bet1 } setValue={ setBet1 } disabled={ rolling } />
-      <BetControl title={ '2' } value={ bet2 } setValue={ setBet2 } disabled={ rolling } />
-      <BetControl title={ '3' } value={ bet3 } setValue={ setBet3 } disabled={ rolling } />
-      <BetControl title={ '4' } value={ bet4 } setValue={ setBet4 } disabled={ rolling } />
-      <BetControl title={ '5' } value={ bet5 } setValue={ setBet5 } disabled={ rolling } />
-      <BetControl title={ '6' } value={ bet6 } setValue={ setBet6 } disabled={ rolling } />
+      <BetMagnitude
+        magnitude={ magnitude }
+        updateMagnitude={ onUpdateMagnitude }
+      />
+      <BetControl title={ 'Pair' } value={ pair } setValue={ setPair } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ 'Sum 7' } value={ sum7 } setValue={ setSum7 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ 'Sum < 7' } value={ sumSub7 } setValue={ setSumSub7 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ 'Sum > 7' } value={ sumPlus7 } setValue={ setSumPlus7 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ 'Sequence' } value={ sequence } setValue={ setSequence } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ '1' } value={ bet1 } setValue={ setBet1 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ '2' } value={ bet2 } setValue={ setBet2 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ '3' } value={ bet3 } setValue={ setBet3 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ '4' } value={ bet4 } setValue={ setBet4 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ '5' } value={ bet5 } setValue={ setBet5 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
+      <BetControl title={ '6' } value={ bet6 } setValue={ setBet6 } disabled={ rolling } suffix={ suffix } magnitude={ magnitude } />
     </div>
     <hr className="divider" />
     <div className="totals">

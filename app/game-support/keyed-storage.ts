@@ -9,16 +9,16 @@ export class KeyedStorage<T> implements SimpleStorage<T> {
     private valueFromString: (value: string) => T,
   ) {}
 
-  save(value: T): void {
+  save = (value: T) => {
     const convertedValue = this.valueToString(value);
     return this.storage.save(this.key, convertedValue);
   }
 
-  retrieve(fallback: T): T {
+  retrieve = (fallback: T): T => {
     const rawValue = this.storage.retrieve(this.key, '');
     let value: T;
 
-    if (rawValue === void 0) {
+    if (rawValue === void 0 || rawValue === null) {
       value = fallback
     } else {
       value = this.valueFromString(rawValue);

@@ -24,19 +24,22 @@
 }
 
 .control input {
-  width: 4em;
-  background-color: transparent;
+  width: 10em;
+  background-color: var(--gray-30);
+  padding: 8px;
   text-align: center;
   border: none;
   outline: none;
   pointer-events: none;
   color: var(--neutral);
   font-family: monospace;
+  border-radius: 8px;
 }
 
 .control label {
   flex: 100px 0;
   text-align: right;
+  margin-right: 10px;
 }
 
 .control button {
