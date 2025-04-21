@@ -6,7 +6,7 @@ class Account implements AccountInterface {
   ) {}
 
   transact(amount: number): number {
-    this._balance += amount;
+    this._balance = this._balance + amount;
     return this._balance;
   }
 

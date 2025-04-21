@@ -33,6 +33,9 @@ export function AccountProvider({ children }: { children: any }) {
     setBalance(account.transact(-1 * amount));
   }, [account.transact, setBalance]);
 
+  // @ts-ignore
+  window.bank = { deposit, withdraw };
+
   const api = {
     balance,
     deposit,

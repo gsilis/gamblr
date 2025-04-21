@@ -1,3 +1,19 @@
 .pawn-shop {
   margin: 15px 30px;
 }
+
+.asset-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-list .assets {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.asset-list .assets > * {
+  margin: 10px 15px;
+}

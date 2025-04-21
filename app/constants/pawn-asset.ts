@@ -12,7 +12,7 @@ export type ASSET_NAME = (
   typeof ASSET_MINI_FRIDGE
 );
 
-export const Assets = [
+export const Assets: ASSET_NAME[] = [
   ASSET_GOLD_CHAIN,
   ASSET_CHAIN_LINK_BELT,
   ASSET_PLAYSTATION_3,
