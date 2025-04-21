@@ -1,26 +1,14 @@
-import Play from '../components/play/play';
 import { use } from "react";
-import { ProfileContext } from "~/contexts/profile-context";
-import { Navigate } from "react-router";
-import { TransactionContext } from '~/contexts/transaction-context';
+import { Navigate, useParams } from "react-router";
+import GameRenderer from "~/components/game-renderer/game-renderer";
+import { CityContext } from '~/contexts/city-context';
+import { GameContext } from "~/contexts/game-context";
 
 export default function PlayRoute() {
-  const profile = use(ProfileContext);
-  const transactions = use(TransactionContext);
+  const cityContext = use(CityContext);
 
-  if (profile?.city) {
-    return <Play 
-      city={ profile?.city }
-      balance={ profile?.balance }
-      transactions={ transactions?.transactions }
-      addTransaction={ transactions?.addTransaction }
-      createBank={ transactions?.createBank }
-      createPawn={ transactions?.createPawn }
-      createWin={ transactions?.createWin }
-      createBet={ transactions?.createBet }
-      credit={ profile?.credit }
-      debit={ profile?.debit }
-    />;
+  if (cityContext?.city) {
+    return <GameRenderer></GameRenderer>;
   } else {
     return <Navigate to="/city-picker" />;
   }

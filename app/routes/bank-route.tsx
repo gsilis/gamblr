@@ -1,11 +1,11 @@
 import Bank from "~/components/bank/bank";
 import { use } from "react";
 import { Navigate } from "react-router";
-import { ProfileContext } from "~/contexts/profile-context";
+import { CityContext } from "~/contexts/city-context";
 
 export default function BankRoute() {
-  const profile = use(ProfileContext);
-  const city = profile.city;
+  const cityContext = use(CityContext);
+  const city = cityContext.city;
 
   if (city) {
     return <Bank />;

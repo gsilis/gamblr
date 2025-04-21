@@ -1,8 +1,11 @@
-export const CITY = 'city_storage';
-export const BALANCE = 'balance_storage';
-export const TRANSACTIONS = 'transaction_storage';
-export const MATCHERS = 'score_matchers';
-export const FLED_CITIES = 'fled_cities';
+export const GAMBLING_CITY = 'city_storage';
+export const FUNDS = 'gambling-funds';
+export const VISITED_CITIES = 'gambling-visited-cities';
+export const PAWN_ASSETS = 'gambling-pawn-assets';
 
-const  KEYS = [CITY, BALANCE, TRANSACTIONS, MATCHERS];
-export default KEYS;
+export default [
+  GAMBLING_CITY,
+  FUNDS,
+  VISITED_CITIES,
+  PAWN_ASSETS,
+];

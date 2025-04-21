@@ -1,11 +1,14 @@
-import { type RouteConfig, index, route, layout } from "@react-router/dev/routes";
+import { type RouteConfig, index, route, layout, prefix } from "@react-router/dev/routes";
 
 export default [
   layout('./layouts/chrome/chrome.tsx', [
     index('./routes/redirect-user.tsx'),
     layout('./layouts/play/play.tsx', [
-      route('history', './routes/history-route.tsx'),
-      route('play', './routes/play-route.tsx'),
+      ...prefix('play', [
+        index('./routes/game-picker-router.tsx'),
+        route('picker', './routes/game-picker-route.tsx'),
+        route(':gameName', './routes/play-route.tsx')
+      ]),
       route('pawn-shop', './routes/pawn-shop-route.tsx'),
       route('reset', './routes/reset-route.tsx'),
       route('bank', './routes/bank-route.tsx'),

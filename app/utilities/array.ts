@@ -31,3 +31,18 @@ export function blank<T>(size: number, filler: any = void 0): T[] {
 
   return arr;
 }
+
+export function deduplicated<T>(array: T[]): T[] {
+  return array.reduce((acc: T[], item: T) => {
+    acc.indexOf(item) === -1 && acc.push(item);
+    return acc;
+  }, []);
+}
+
+export function difference<T>(array: T[], notIn: T[]): T[] {
+  return array.reduce((arr: T[], item: T) => {
+    notIn.indexOf(item) === -1 && arr.push(item);
+
+    return arr;
+  }, []);
+}

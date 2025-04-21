@@ -15,14 +15,14 @@ const NuclearOptionProvider = ({ children }: { children: any }) => {
 
   const eraseEverything = useCallback(() => {
     Keys.forEach(key => {
-      storageContext.remove(key);
+      storageContext.storage.remove(key);
     });
 
     setTimeout(() => {
       // @ts-ignore
       window.location = '/';
     });
-  }, [Keys, storageContext.remove]);
+  }, [Keys, storageContext.storage.remove]);
 
   const api = {
     eraseEverything,

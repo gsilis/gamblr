@@ -1,0 +1,33 @@
+.bet-magnitude {
+  margin: 15px 30px;
+}
+
+.bet-magnitude-options {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+}
+
+.bet-magnitude-options button {
+  font-size: 14px;
+  font-weight: 700;
+  background: transparent;
+  border-width: 3px;
+  border-style: solid;
+  border-color: var(--gray-80);
+  border-radius: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  color: var(--neutral);
+  padding: 5px;
+}
+
+.bet-magnitude-options button.selected {
+  border-color: var(--light);
+  color: var(--light);
+}
+
+.bet-magnitude-options button:hover {
+  border-color: var(--gold-1);
+  color: var(--gold-1);
+}

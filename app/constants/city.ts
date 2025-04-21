@@ -26,7 +26,37 @@ export const TOKYO = 'tokyo';
 export const TORONTO = 'toronto';
 export const WUHAN = 'wuhan';
 
-const Cities = [
+export type City = (
+  typeof ANCHORAGE |
+  typeof BANGKOK |
+  typeof BEIJING |
+  typeof BERLIN |
+  typeof BRISBANE |
+  typeof CALGARY |
+  typeof CARACAS |
+  typeof CHICAGO |
+  typeof HONG_KONG |
+  typeof ISTANBUL |
+  typeof KUALA_LUMPUR |
+  typeof LAGOS |
+  typeof LAHORE |
+  typeof LIMA |
+  typeof MADRID |
+  typeof MIAMI |
+  typeof MOSCOW |
+  typeof MUMBAI |
+  typeof NANJING |
+  typeof NEW_YORK |
+  typeof PARIS |
+  typeof RIYADH |
+  typeof SAPPORO |
+  typeof SYDNEY |
+  typeof TOKYO |
+  typeof TORONTO |
+  typeof WUHAN
+);
+
+const Cities: City[] = [
   ANCHORAGE,
   BANGKOK,
   BEIJING,
